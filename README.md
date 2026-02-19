@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# 🧠 NeuroSure - AI Insurance Policy Analyzer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
+[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org)
 
-## Available Scripts
+## 📋 Overview
 
-In the project directory, you can run:
+**NeuroSure** is an AI-powered tool that helps you understand insurance policies. Upload a PDF, select a medical condition, and it finds relevant clauses using smart search that understands meaning, not just keywords.
 
-### `npm start`
+![Dashboard Screenshot](https://via.placeholder.com/800x400/00695C/FFFFFF?text=NeuroSure+Dashboard)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ✨ Features
 
-### `npm test`
+- 🔍 **Smart Search** - Finds clauses even when exact words aren't there
+- 📄 **PDF Upload** - Drag & drop or click to upload
+- 🏥 **25+ Diseases** - Diabetes, Hypertension, Cancer, and more
+- 📊 **Simple Metrics** - See relevance scores at a glance
+- 🔐 **Google Login** - Secure authentication
+- ⚡ **Fast Results** - Get answers in seconds
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Quick Start (5 minutes)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### What you need:
+- Python 3.11
+- Node.js
+- Redis
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Download the code
+```bash
+git clone https://github.com/itzzsuj/neurosure.git
+cd neurosure
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Setup Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+mkdir -p uploads processed
+redis-server  # In a new terminal
+python app.py
+```
 
-### `npm run eject`
+### 3. Setup Frontend
+```bash
+# New terminal, from project root
+npm install
+cp src/firebase.example.js src/firebase.js
+# Edit src/firebase.js with your Firebase details
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 4. Open your browser
+Go to `http://localhost:3000`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔧 Firebase Setup (2 minutes)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Click "Create project"
+3. Add a web app (</> icon)
+4. Copy config to `src/firebase.js`
+5. Enable Google Sign-in in Authentication tab
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📖 How to Use
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Login** with Google
+2. **Upload** your insurance PDF
+3. **Pick** a disease (like Diabetes)
+4. **Click** "Extract Clauses"
+5. **See** results with relevance scores
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📁 Simple Project Structure
 
-### Analyzing the Bundle Size
+```
+neurosure/
+├── backend/           # Python backend
+│   ├── app.py        # Main server
+│   ├── utils/        # AI and PDF tools
+│   └── requirements.txt
+├── src/              # React frontend
+│   ├── dashboard.jsx # Main page
+│   ├── login.jsx     # Login page
+│   └── firebase.js   # Your Firebase config
+└── package.json
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## ⚠️ Common Issues & Fixes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Redis not running?**
+```bash
+redis-server
+```
 
-### Advanced Configuration
+**Port 5000 already in use?**
+```bash
+lsof -i :5000
+kill -9 [PID]
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Firebase not working?**
+- Check `firebase.js` has correct keys
+- Enable Google Sign-in in Firebase Console
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🛠️ Tech Stack
 
-### `npm run build` fails to minify
+- **Frontend**: React, Material-UI
+- **Backend**: Flask, Python
+- **AI**: Sentence-Transformers, FAISS
+- **Auth**: Firebase
+- **Queue**: Redis
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## ⭐ Support
+
+If you like this project, give it a star on GitHub!
+
+---
+
+**Made with ❤️ for better insurance understanding**
