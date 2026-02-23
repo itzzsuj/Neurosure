@@ -52,3 +52,22 @@ logs/
 **/*.pyc
 **/*.pyo
 **/*.pyd
+
+
+# 🤖 ML / Torch / Models (VERY IMPORTANT)
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.ckpt
+
+# 🧠 HuggingFace / Transformers cache
+.cache/
+huggingface/
+hf_home/
+
+# 🧬 FAISS / embeddings (generic safety)
+*.faiss
+*.index
+*.npy
