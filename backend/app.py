@@ -20,7 +20,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from layers.cds_calculator import CDSCalculator
-from layers.erg_calculator import ERGCalculator  # ✅ ONLY THIS LINE ADDED
+from layers.erg_calculator import ERGCalculator
 from utils.pdf_processor import PDFProcessor
 from utils.embeddings import EmbeddingGenerator
 from utils.vector_store import VectorStore
@@ -41,7 +41,7 @@ CORS(app, origins=["http://localhost:3000"])
 
 cds_calculator = CDSCalculator()
 erg_calculator = ERGCalculator()
-pai_calculator = PAICalculator()    # ✅ ONLY THIS LINE ADDED
+pai_calculator = PAICalculator()
 
 # Configuration
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -217,8 +217,6 @@ def precompute_disease_embeddings():
         disease_embeddings[disease['value']] = enhanced_embedding
         disease_categories[disease['value']] = disease['category']
 
-
-
 @app.route('/api/analysis/status/<job_id>', methods=['GET'])
 def get_job_status(job_id):
     """Get processing status for a job"""
@@ -305,24 +303,30 @@ def extract_clauses():
             disease_category
         )
         
-        # Calculate CDS score (Coverage support)
-        cds_score = cds_calculator.calculate_from_retrieved_clauses(
-            retrieved_clauses=clauses,
-            disease_name=disease_name
-        )
-        
-        # Calculate ERG score (Exclusion risk)
-        erg_score = erg_calculator.calculate_from_retrieved_clauses(
-            retrieved_clauses=clauses,
-            disease_name=disease_name
-        )
-        
-        # Calculate PAI score (Policy Ambiguity)
-        pai_score = pai_calculator.calculate_from_retrieved_clauses(
+        # 🔥 UPDATED: Capture CDS score AND report
+        cds_score, cds_report = cds_calculator.calculate_from_retrieved_clauses(
             retrieved_clauses=clauses,
             disease_name=disease_name,
-            clause_embeddings=None
+            return_report=True
         )
+        
+        # 🔥 UPDATED: Capture ERG score AND report
+        erg_score, erg_report = erg_calculator.calculate_from_retrieved_clauses(
+            retrieved_clauses=clauses,
+            disease_name=disease_name,
+            return_report=True
+        )
+        
+        # 🔥 UPDATED: Capture PAI score AND report
+        pai_score, pai_report = pai_calculator.calculate_from_retrieved_clauses(
+            retrieved_clauses=clauses,
+            disease_name=disease_name,
+            clause_embeddings=None,
+            return_report=True
+        )
+        
+        # 🔥 Combine all reports into one detailed report
+        detailed_report = f"{cds_report}\n\n{erg_report}\n\n{pai_report}"
         
         return jsonify({
             'success': True,
@@ -333,7 +337,8 @@ def extract_clauses():
             'pai_score': pai_score,
             'disease_category': disease_category,
             'queries_used': queries_used[:5],
-            'total_clauses_found': len(clauses)
+            'total_clauses_found': len(clauses),
+            'detailed_report': detailed_report  # 🔥 NEW: Send report to frontend
         })
         
     except Exception as e:

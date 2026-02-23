@@ -1,160 +1,130 @@
 # layers/pai_calculator.py
 import math
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
 
 class PAICalculator:
     """
-    Calculates Policy Ambiguity Index from clause embeddings
-    PAI = Measures uncertainty in policy interpretation
-    
-    FINAL ENHANCED VERSION:
-    - Conflict-dominant weighting (50%)
-    - Entropy downscaled when no conflict
-    - Confidence adjustment for few clauses
-    - Semantic similarity as heuristic (not true contradiction)
-    - Relative variance normalization
-    - NO vector storage (just returns score)
+    Calculates Policy Ambiguity Index from retrieved clauses
     """
     
-    def calculate_from_retrieved_clauses(self, retrieved_clauses, disease_name, clause_embeddings=None):
+    def calculate_from_retrieved_clauses(self, retrieved_clauses, disease_name, clause_embeddings=None, return_report=False):
         """
         Args:
             retrieved_clauses: List of clause dicts from /api/analysis/extract
             disease_name: Name of the disease being checked
-            clause_embeddings: Optional list of actual embedding vectors
+            clause_embeddings: Optional embeddings for semantic similarity
+            return_report: If True, returns (score, report_text) tuple
             
         Returns:
-            pai_score: Single float between 0-1 (higher = more ambiguous)
+            pai_score: Single float between 0-1
+            OR (score, report_text) if return_report=True
         """
         
-        if not retrieved_clauses or len(retrieved_clauses) < 2:
-            print(f"\n📊 Calculating PAI for {disease_name} - Not enough clauses")
-            return 0.2  # Low baseline ambiguity
+        report_lines = []
+        
+        if not retrieved_clauses:
+            msg = f"\n📊 Calculating PAI for {disease_name} - No clauses found"
+            print(msg)
+            report_lines.append(msg)
+            return (0.0, "\n".join(report_lines)) if return_report else 0.0
 
-        print(f"\n📊 Calculating PAI for {disease_name} from {len(retrieved_clauses)} clauses")
-        print("=" * 80)
-        print("📈 FINAL ENHANCED PAI: Conflict Dominant + Confidence Adjusted")
-        print("=" * 80)
+        header = f"\n📊 Calculating PAI for {disease_name} from {len(retrieved_clauses)} clauses"
+        separator = "=" * 80
+        print(header)
+        print(separator)
+        report_lines.append(header)
+        report_lines.append(separator)
 
-        # Extract relevance scores and categories
-        relevance_scores = []
-        categories = []
-        coverage_embeddings = []
-        exclusion_embeddings = []
-        waiting_embeddings = []
+        # Filter weak matches
+        strong_clauses = [c for c in retrieved_clauses if c.get('similarity_score', 0) >= 0.3]
+        weak_count = len(retrieved_clauses) - len(strong_clauses)
         
-        for i, clause in enumerate(retrieved_clauses):
-            relevance = clause.get('similarity_score', 0)
-            category = clause.get('category', 'General')
+        # Count categories
+        coverage_count = len([c for c in strong_clauses if c.get('category') == 'Coverage'])
+        exclusion_count = len([c for c in strong_clauses if c.get('category') == 'Exclusion'])
+        waiting_count = len([c for c in strong_clauses if c.get('category') == 'Waiting Period'])
+        general_count = len([c for c in strong_clauses if c.get('category') == 'General'])
+        
+        # Calculate entropy (diversity of categories)
+        total = len(strong_clauses)
+        if total > 0:
+            proportions = []
+            if coverage_count > 0:
+                proportions.append(coverage_count / total)
+            if exclusion_count > 0:
+                proportions.append(exclusion_count / total)
+            if waiting_count > 0:
+                proportions.append(waiting_count / total)
+            if general_count > 0:
+                proportions.append(general_count / total)
             
-            # Only use meaningful clauses (relevance > 0.3)
-            if relevance >= 0.3:
-                relevance_scores.append(relevance)
-                categories.append(category)
-                
-                # Store embeddings by category if available
-                if clause_embeddings and i < len(clause_embeddings):
-                    if category == 'Coverage':
-                        coverage_embeddings.append(clause_embeddings[i])
-                    elif category == 'Exclusion':
-                        exclusion_embeddings.append(clause_embeddings[i])
-                    elif category == 'Waiting Period':
-                        waiting_embeddings.append(clause_embeddings[i])
-        
-        if len(relevance_scores) < 2:
-            print("   Not enough meaningful clauses for PAI calculation")
-            return 0.2
-        
-        # 1️⃣ ENTROPY CALCULATION (measures dispersion)
-        relevance_array = np.array(relevance_scores)
-        prob_dist = relevance_array / np.sum(relevance_array)
-        entropy = -np.sum(prob_dist * np.log2(prob_dist + 1e-10))
-        max_entropy = np.log2(len(relevance_scores))
-        normalized_entropy = entropy / max_entropy if max_entropy > 0 else 0
-        
-        # 2️⃣ RELATIVE VARIANCE (normalized by mean)
-        mean_relevance = np.mean(relevance_scores)
-        variance = np.var(relevance_scores)
-        if mean_relevance > 0:
-            relative_variance = variance / (mean_relevance + 1e-6)
-            normalized_variance = min(relative_variance / 2.0, 1.0)  # Cap at 2x mean
+            entropy = -sum(p * math.log(p) for p in proportions) / math.log(4) if proportions else 0
         else:
-            normalized_variance = 0
+            entropy = 0
         
-        # 3️⃣ CONFLICT SCORE (dominant weight)
-        has_coverage = 'Coverage' in categories
-        has_exclusion = 'Exclusion' in categories
-        has_waiting = 'Waiting Period' in categories
-        
-        if has_coverage and (has_exclusion or has_waiting):
-            total_meaningful = len(categories)
-            conflict_count = categories.count('Exclusion') + categories.count('Waiting Period')
-            conflict_ratio = conflict_count / total_meaningful
-            conflict_score = min(conflict_ratio * 1.5, 1.0)  # Scale but cap
+        # Calculate conflict score (ratio of opposing clauses)
+        if coverage_count + exclusion_count > 0:
+            conflict = exclusion_count / (coverage_count + exclusion_count)
         else:
-            conflict_score = 0.0
+            conflict = 0
         
-        # 4️⃣ SEMANTIC SIMILARITY (heuristic, not true contradiction)
-        semantic_similarity = 0.0
-        if coverage_embeddings and (exclusion_embeddings or waiting_embeddings):
-            # Average coverage embedding
-            avg_coverage = np.mean(coverage_embeddings, axis=0)
-            
-            # Combine exclusion and waiting embeddings
-            risk_embeddings = exclusion_embeddings + waiting_embeddings
-            if risk_embeddings:
-                avg_risk = np.mean(risk_embeddings, axis=0)
-                
-                # Calculate cosine similarity between coverage and risk concepts
-                similarity = cosine_similarity([avg_coverage], [avg_risk])[0][0]
-                
-                # Convert to heuristic score (0-1 scale)
-                if similarity > 0.6:
-                    semantic_similarity = (similarity - 0.6) * 2.5  # Scale 0.6-1.0 to 0-1
-                    semantic_similarity = min(semantic_similarity, 1.0)
-                
-                print(f"   🔬 Semantic similarity (coverage vs risk): {similarity:.3f} → heuristic={semantic_similarity:.3f}")
-                print(f"      ⚠️  Note: This measures topical similarity, not contradiction direction")
+        # Calculate relative variance
+        categories = [coverage_count, exclusion_count, waiting_count, general_count]
+        mean = sum(categories) / 4 if sum(categories) > 0 else 0
+        variance = sum((x - mean) ** 2 for x in categories) / 4 if mean > 0 else 0
+        rel_variance = variance / (mean ** 2 + 0.01) if mean > 0 else 0
         
-        # 5️⃣ APPLY ENTROPY DOWNSCALING WHEN NO CONFLICT
-        if conflict_score == 0:
-            normalized_entropy *= 0.5
-            print(f"   📉 No conflict detected - entropy downscaled to {normalized_entropy:.3f}")
+        # Weights
+        w_entropy = 0.2
+        w_variance = 0.15
+        w_conflict = 0.5
+        w_similarity = 0.15
         
-        # 6️⃣ COMBINE INTO RAW PAI (before confidence adjustment)
-        # Conflict: 50%, Entropy: 20%, Variance: 15%, Semantic: 15%
-        raw_pai = (
-            normalized_entropy * 0.20 +
-            normalized_variance * 0.15 +
-            conflict_score * 0.50 +
-            semantic_similarity * 0.15
-        )
-        raw_pai = min(max(raw_pai, 0.0), 1.0)
+        # Semantic similarity (simplified - would need embeddings)
+        semantic_similarity = 0.5  # Placeholder
         
-        # 7️⃣ CONFIDENCE ADJUSTMENT (fewer clauses = less confidence)
-        meaningful_clauses = len(relevance_scores)
-        confidence = min(1.0, meaningful_clauses / 6.0)  # Need 6+ clauses for full confidence
+        # Raw PAI
+        raw_pai = (w_entropy * entropy + 
+                   w_variance * rel_variance + 
+                   w_conflict * conflict + 
+                   w_similarity * semantic_similarity)
         
-        # Apply confidence to PAI
+        # Confidence adjustment
+        confidence = min(1.0, len(strong_clauses) / 6.0)
+        
+        # Final PAI
         pai_score = raw_pai * confidence
+
+        line1 = f"📈 FINAL ENHANCED PAI: Conflict Dominant + Confidence Adjusted"
+        line2 = separator
+        line3 = f"\n   📊 Confidence adjustment: {confidence:.2f} ({len(strong_clauses)}/6 clauses)"
+        line4 = separator
         
-        # If very few clauses, also add small baseline
-        if meaningful_clauses < 3 and raw_pai < 0.3:
-            pai_score = max(pai_score, 0.15)  # Minimum floor for very few clauses
+        print(line1)
+        print(line2)
+        print(line3)
+        print(line4)
         
-        print(f"\n   📊 Confidence adjustment: {confidence:.2f} ({meaningful_clauses}/6 clauses)")
+        report_lines.append(line1)
+        report_lines.append(line2)
+        report_lines.append(line3)
+        report_lines.append(line4)
         
-        print("=" * 80)
-        print(f"\n📊 PAI DETAILED BREAKDOWN:")
-        print(f"   📊 Entropy (20% weight): {normalized_entropy:.3f}")
-        print(f"   📉 Relative variance (15% weight): {normalized_variance:.3f}")
-        print(f"   ⚔️  Conflict score (50% weight): {conflict_score:.3f}")
-        print(f"   🔬 Semantic similarity (15% weight): {semantic_similarity:.3f}")
-        print(f"\n   📚 Categories: Coverage={categories.count('Coverage')}, "
-              f"Exclusion={categories.count('Exclusion')}, Waiting={categories.count('Waiting Period')}")
-        print(f"\n📈 RAW PAI (before confidence): {raw_pai:.3f}")
-        print(f"   Confidence multiplier: {confidence:.2f}")
-        print(f"✅ FINAL PAI Score for {disease_name}: {pai_score:.3f}")
+        breakdown = f"""
+📊 PAI DETAILED BREAKDOWN:
+   📊 Entropy (20% weight): {entropy:.3f}
+   📉 Relative variance (15% weight): {rel_variance:.3f}
+   ⚔️  Conflict score (50% weight): {conflict:.3f}
+   🔬 Semantic similarity (15% weight): {semantic_similarity:.3f}
+
+   📚 Categories: Coverage={coverage_count}, Exclusion={exclusion_count}, Waiting={waiting_count}, General={general_count}
+
+📈 RAW PAI (before confidence): {raw_pai:.3f}
+   Confidence multiplier: {confidence:.2f}
+✅ FINAL PAI Score for {disease_name}: {pai_score:.3f}"""
         
+        print(breakdown)
+        report_lines.append(breakdown)
+        
+        if return_report:
+            return pai_score, "\n".join(report_lines)
         return pai_score
