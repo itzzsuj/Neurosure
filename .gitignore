@@ -46,3 +46,9 @@ Thumbs.db
 # 📝 Logs
 *.log
 logs/
+
+# 🐍 Python cache files
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
