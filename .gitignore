@@ -12,6 +12,8 @@ src/**/firebase.js
 backend/.env
 
 # 🐍 Python (Backend)
+layers/venv/  
+layers/__pycache__/
 backend/venv/
 backend/__pycache__/
 backend/*/__pycache__/
