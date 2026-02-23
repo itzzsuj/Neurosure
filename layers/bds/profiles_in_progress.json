@@ -1,0 +1,2484 @@
+{
+  "profiles": [
+    {
+      "patient_id": "P0001",
+      "age": 50,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "mild",
+      "target_brs": 0.68
+    },
+    {
+      "patient_id": "P0002",
+      "age": 63,
+      "gender": "M",
+      "condition_name": "Sleep Apnea",
+      "severity": "moderate",
+      "target_brs": 0.66
+    },
+    {
+      "patient_id": "P0003",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.4
+    },
+    {
+      "patient_id": "P0004",
+      "age": 56,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "severe",
+      "target_brs": 0.68
+    },
+    {
+      "patient_id": "P0005",
+      "age": 51,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.54
+    },
+    {
+      "patient_id": "P0006",
+      "age": 76,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0007",
+      "age": 54,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "moderate",
+      "target_brs": 0.86
+    },
+    {
+      "patient_id": "P0008",
+      "age": 43,
+      "gender": "M",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.93
+    },
+    {
+      "patient_id": "P0009",
+      "age": 69,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "severe",
+      "target_brs": 0.58
+    },
+    {
+      "patient_id": "P0010",
+      "age": 69,
+      "gender": "M",
+      "condition_name": "HIV/AIDS",
+      "severity": "mild",
+      "target_brs": 0.41
+    },
+    {
+      "patient_id": "P0011",
+      "age": 64,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "severe",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0012",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "HIV/AIDS",
+      "severity": "mild",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0013",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "moderate",
+      "target_brs": 0.49
+    },
+    {
+      "patient_id": "P0014",
+      "age": 77,
+      "gender": "M",
+      "condition_name": "Lung Cancer",
+      "severity": "mild",
+      "target_brs": 0.76
+    },
+    {
+      "patient_id": "P0015",
+      "age": 35,
+      "gender": "M",
+      "condition_name": "Chronic Migraine",
+      "severity": "moderate",
+      "target_brs": 0.74
+    },
+    {
+      "patient_id": "P0016",
+      "age": 41,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "moderate",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0017",
+      "age": 42,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0018",
+      "age": 71,
+      "gender": "F",
+      "condition_name": "Crohn",
+      "severity": "moderate",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0019",
+      "age": 61,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.57
+    },
+    {
+      "patient_id": "P0020",
+      "age": 85,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.74
+    },
+    {
+      "patient_id": "P0021",
+      "age": 56,
+      "gender": "M",
+      "condition_name": "Breast Cancer",
+      "severity": "severe",
+      "target_brs": 0.64
+    },
+    {
+      "patient_id": "P0022",
+      "age": 36,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.87
+    },
+    {
+      "patient_id": "P0023",
+      "age": 37,
+      "gender": "F",
+      "condition_name": "Hypertension",
+      "severity": "moderate",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0024",
+      "age": 43,
+      "gender": "M",
+      "condition_name": "HIV/AIDS",
+      "severity": "moderate",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0025",
+      "age": 35,
+      "gender": "M",
+      "condition_name": "Asthma",
+      "severity": "severe",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0026",
+      "age": 29,
+      "gender": "M",
+      "condition_name": "Asthma",
+      "severity": "mild",
+      "target_brs": 0.45
+    },
+    {
+      "patient_id": "P0027",
+      "age": 31,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "mild",
+      "target_brs": 0.64
+    },
+    {
+      "patient_id": "P0028",
+      "age": 60,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "moderate",
+      "target_brs": 0.76
+    },
+    {
+      "patient_id": "P0029",
+      "age": 44,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "mild",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0030",
+      "age": 79,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.92
+    },
+    {
+      "patient_id": "P0031",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Crohn",
+      "severity": "moderate",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0032",
+      "age": 25,
+      "gender": "M",
+      "condition_name": "Prostate Cancer",
+      "severity": "mild",
+      "target_brs": 0.31
+    },
+    {
+      "patient_id": "P0033",
+      "age": 36,
+      "gender": "F",
+      "condition_name": "Chronic Migraine",
+      "severity": "mild",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0034",
+      "age": 58,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "severe",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0035",
+      "age": 55,
+      "gender": "M",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "severe",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0036",
+      "age": 85,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.46
+    },
+    {
+      "patient_id": "P0037",
+      "age": 48,
+      "gender": "M",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "mild",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0038",
+      "age": 54,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "moderate",
+      "target_brs": 0.91
+    },
+    {
+      "patient_id": "P0039",
+      "age": 37,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "mild",
+      "target_brs": 0.3
+    },
+    {
+      "patient_id": "P0040",
+      "age": 70,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.33
+    },
+    {
+      "patient_id": "P0041",
+      "age": 75,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0042",
+      "age": 52,
+      "gender": "F",
+      "condition_name": "Osteoarthritis",
+      "severity": "severe",
+      "target_brs": 0.47
+    },
+    {
+      "patient_id": "P0043",
+      "age": 52,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "severe",
+      "target_brs": 0.35
+    },
+    {
+      "patient_id": "P0044",
+      "age": 83,
+      "gender": "M",
+      "condition_name": "Chronic Migraine",
+      "severity": "moderate",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0045",
+      "age": 41,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.45
+    },
+    {
+      "patient_id": "P0046",
+      "age": 25,
+      "gender": "F",
+      "condition_name": "Osteoarthritis",
+      "severity": "severe",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0047",
+      "age": 69,
+      "gender": "F",
+      "condition_name": "Diabetes Type 2",
+      "severity": "severe",
+      "target_brs": 0.67
+    },
+    {
+      "patient_id": "P0048",
+      "age": 27,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "severe",
+      "target_brs": 0.35
+    },
+    {
+      "patient_id": "P0049",
+      "age": 47,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "severe",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0050",
+      "age": 67,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "mild",
+      "target_brs": 0.91
+    },
+    {
+      "patient_id": "P0051",
+      "age": 36,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0052",
+      "age": 27,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "moderate",
+      "target_brs": 0.49
+    },
+    {
+      "patient_id": "P0053",
+      "age": 59,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "moderate",
+      "target_brs": 0.71
+    },
+    {
+      "patient_id": "P0054",
+      "age": 67,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "severe",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0055",
+      "age": 68,
+      "gender": "M",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "severe",
+      "target_brs": 0.3
+    },
+    {
+      "patient_id": "P0056",
+      "age": 72,
+      "gender": "M",
+      "condition_name": "Diabetes Type 2",
+      "severity": "mild",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0057",
+      "age": 73,
+      "gender": "M",
+      "condition_name": "Alzheimer",
+      "severity": "severe",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0058",
+      "age": 74,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.95
+    },
+    {
+      "patient_id": "P0059",
+      "age": 25,
+      "gender": "M",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0060",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "Lung Cancer",
+      "severity": "severe",
+      "target_brs": 0.63
+    },
+    {
+      "patient_id": "P0061",
+      "age": 48,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "severe",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0062",
+      "age": 29,
+      "gender": "M",
+      "condition_name": "Bipolar Disorder",
+      "severity": "moderate",
+      "target_brs": 0.34
+    },
+    {
+      "patient_id": "P0063",
+      "age": 83,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0064",
+      "age": 57,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "moderate",
+      "target_brs": 0.67
+    },
+    {
+      "patient_id": "P0065",
+      "age": 59,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "severe",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0066",
+      "age": 52,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "severe",
+      "target_brs": 0.65
+    },
+    {
+      "patient_id": "P0067",
+      "age": 72,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.33
+    },
+    {
+      "patient_id": "P0068",
+      "age": 26,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "moderate",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0069",
+      "age": 45,
+      "gender": "M",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0070",
+      "age": 64,
+      "gender": "M",
+      "condition_name": "Hepatitis C",
+      "severity": "moderate",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0071",
+      "age": 58,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "severe",
+      "target_brs": 0.72
+    },
+    {
+      "patient_id": "P0072",
+      "age": 30,
+      "gender": "M",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "severe",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0073",
+      "age": 76,
+      "gender": "M",
+      "condition_name": "Hepatitis C",
+      "severity": "mild",
+      "target_brs": 0.61
+    },
+    {
+      "patient_id": "P0074",
+      "age": 69,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "mild",
+      "target_brs": 0.42
+    },
+    {
+      "patient_id": "P0075",
+      "age": 30,
+      "gender": "F",
+      "condition_name": "Bipolar Disorder",
+      "severity": "severe",
+      "target_brs": 0.71
+    },
+    {
+      "patient_id": "P0076",
+      "age": 58,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "moderate",
+      "target_brs": 0.49
+    },
+    {
+      "patient_id": "P0077",
+      "age": 40,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "mild",
+      "target_brs": 0.38
+    },
+    {
+      "patient_id": "P0078",
+      "age": 53,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0079",
+      "age": 82,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "severe",
+      "target_brs": 0.86
+    },
+    {
+      "patient_id": "P0080",
+      "age": 58,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "moderate",
+      "target_brs": 0.85
+    },
+    {
+      "patient_id": "P0081",
+      "age": 61,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.58
+    },
+    {
+      "patient_id": "P0082",
+      "age": 29,
+      "gender": "M",
+      "condition_name": "Lung Cancer",
+      "severity": "mild",
+      "target_brs": 0.3
+    },
+    {
+      "patient_id": "P0083",
+      "age": 60,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.9
+    },
+    {
+      "patient_id": "P0084",
+      "age": 81,
+      "gender": "F",
+      "condition_name": "Chronic Migraine",
+      "severity": "moderate",
+      "target_brs": 0.58
+    },
+    {
+      "patient_id": "P0085",
+      "age": 36,
+      "gender": "F",
+      "condition_name": "Sleep Apnea",
+      "severity": "mild",
+      "target_brs": 0.71
+    },
+    {
+      "patient_id": "P0086",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0087",
+      "age": 67,
+      "gender": "M",
+      "condition_name": "Alzheimer\u2019s Disease",
+      "severity": "moderate",
+      "target_brs": 0.33
+    },
+    {
+      "patient_id": "P0088",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Chronic Migraine",
+      "severity": "moderate",
+      "target_brs": 0.55
+    },
+    {
+      "patient_id": "P0089",
+      "age": 42,
+      "gender": "M",
+      "condition_name": "Sleep Apnea",
+      "severity": "moderate",
+      "target_brs": 0.63
+    },
+    {
+      "patient_id": "P0090",
+      "age": 45,
+      "gender": "M",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0091",
+      "age": 81,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.67
+    },
+    {
+      "patient_id": "P0092",
+      "age": 61,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "mild",
+      "target_brs": 0.85
+    },
+    {
+      "patient_id": "P0093",
+      "age": 38,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "mild",
+      "target_brs": 0.41
+    },
+    {
+      "patient_id": "P0094",
+      "age": 36,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "mild",
+      "target_brs": 0.51
+    },
+    {
+      "patient_id": "P0095",
+      "age": 67,
+      "gender": "M",
+      "condition_name": "Hepatitis C",
+      "severity": "mild",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0096",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.44
+    },
+    {
+      "patient_id": "P0097",
+      "age": 33,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "severe",
+      "target_brs": 0.88
+    },
+    {
+      "patient_id": "P0098",
+      "age": 74,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "severe",
+      "target_brs": 0.54
+    },
+    {
+      "patient_id": "P0099",
+      "age": 85,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "mild",
+      "target_brs": 0.61
+    },
+    {
+      "patient_id": "P0100",
+      "age": 32,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "moderate",
+      "target_brs": 0.55
+    },
+    {
+      "patient_id": "P0101",
+      "age": 44,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "severe",
+      "target_brs": 0.87
+    },
+    {
+      "patient_id": "P0102",
+      "age": 58,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0103",
+      "age": 83,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "moderate",
+      "target_brs": 0.38
+    },
+    {
+      "patient_id": "P0104",
+      "age": 25,
+      "gender": "M",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "mild",
+      "target_brs": 0.93
+    },
+    {
+      "patient_id": "P0105",
+      "age": 46,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "severe",
+      "target_brs": 0.69
+    },
+    {
+      "patient_id": "P0106",
+      "age": 72,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "mild",
+      "target_brs": 0.33
+    },
+    {
+      "patient_id": "P0107",
+      "age": 66,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "mild",
+      "target_brs": 0.85
+    },
+    {
+      "patient_id": "P0108",
+      "age": 76,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.34
+    },
+    {
+      "patient_id": "P0109",
+      "age": 70,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.87
+    },
+    {
+      "patient_id": "P0110",
+      "age": 66,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "severe",
+      "target_brs": 0.35
+    },
+    {
+      "patient_id": "P0111",
+      "age": 39,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.81
+    },
+    {
+      "patient_id": "P0112",
+      "age": 79,
+      "gender": "M",
+      "condition_name": "Prostate Cancer",
+      "severity": "severe",
+      "target_brs": 0.51
+    },
+    {
+      "patient_id": "P0113",
+      "age": 25,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "mild",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0114",
+      "age": 38,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.77
+    },
+    {
+      "patient_id": "P0115",
+      "age": 41,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "moderate",
+      "target_brs": 0.92
+    },
+    {
+      "patient_id": "P0116",
+      "age": 33,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "moderate",
+      "target_brs": 0.34
+    },
+    {
+      "patient_id": "P0117",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.34
+    },
+    {
+      "patient_id": "P0118",
+      "age": 68,
+      "gender": "M",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "moderate",
+      "target_brs": 0.93
+    },
+    {
+      "patient_id": "P0119",
+      "age": 64,
+      "gender": "F",
+      "condition_name": "Alzheimer",
+      "severity": "moderate",
+      "target_brs": 0.64
+    },
+    {
+      "patient_id": "P0120",
+      "age": 85,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.9
+    },
+    {
+      "patient_id": "P0121",
+      "age": 84,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.58
+    },
+    {
+      "patient_id": "P0122",
+      "age": 74,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "mild",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0123",
+      "age": 41,
+      "gender": "F",
+      "condition_name": "Bipolar Disorder",
+      "severity": "mild",
+      "target_brs": 0.47
+    },
+    {
+      "patient_id": "P0124",
+      "age": 58,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "severe",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0125",
+      "age": 81,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "moderate",
+      "target_brs": 0.43
+    },
+    {
+      "patient_id": "P0126",
+      "age": 65,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0127",
+      "age": 73,
+      "gender": "F",
+      "condition_name": "Parkinson's Disease",
+      "severity": "severe",
+      "target_brs": 0.89
+    },
+    {
+      "patient_id": "P0128",
+      "age": 63,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "severe",
+      "target_brs": 0.59
+    },
+    {
+      "patient_id": "P0129",
+      "age": 56,
+      "gender": "F",
+      "condition_name": "Major Depression",
+      "severity": "moderate",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0130",
+      "age": 45,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "severe",
+      "target_brs": 0.72
+    },
+    {
+      "patient_id": "P0131",
+      "age": 73,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "severe",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0132",
+      "age": 84,
+      "gender": "F",
+      "condition_name": "Alzheimer\u2019s Disease",
+      "severity": "severe",
+      "target_brs": 0.58
+    },
+    {
+      "patient_id": "P0133",
+      "age": 67,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "moderate",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0134",
+      "age": 59,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.59
+    },
+    {
+      "patient_id": "P0135",
+      "age": 29,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "severe",
+      "target_brs": 0.71
+    },
+    {
+      "patient_id": "P0136",
+      "age": 84,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "mild",
+      "target_brs": 0.43
+    },
+    {
+      "patient_id": "P0137",
+      "age": 35,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0138",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "moderate",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0139",
+      "age": 60,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "mild",
+      "target_brs": 0.76
+    },
+    {
+      "patient_id": "P0140",
+      "age": 47,
+      "gender": "F",
+      "condition_name": "Hypertension",
+      "severity": "moderate",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0141",
+      "age": 50,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "mild",
+      "target_brs": 0.59
+    },
+    {
+      "patient_id": "P0142",
+      "age": 75,
+      "gender": "F",
+      "condition_name": "Hepatitis C",
+      "severity": "moderate",
+      "target_brs": 0.41
+    },
+    {
+      "patient_id": "P0143",
+      "age": 63,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "severe",
+      "target_brs": 0.75
+    },
+    {
+      "patient_id": "P0144",
+      "age": 73,
+      "gender": "M",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "severe",
+      "target_brs": 0.88
+    },
+    {
+      "patient_id": "P0145",
+      "age": 30,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "mild",
+      "target_brs": 0.84
+    },
+    {
+      "patient_id": "P0146",
+      "age": 80,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "moderate",
+      "target_brs": 0.61
+    },
+    {
+      "patient_id": "P0147",
+      "age": 70,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "moderate",
+      "target_brs": 0.54
+    },
+    {
+      "patient_id": "P0148",
+      "age": 29,
+      "gender": "M",
+      "condition_name": "Lung Cancer",
+      "severity": "severe",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0149",
+      "age": 70,
+      "gender": "M",
+      "condition_name": "HIV/AIDS",
+      "severity": "moderate",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0150",
+      "age": 67,
+      "gender": "M",
+      "condition_name": "Prostate Cancer",
+      "severity": "moderate",
+      "target_brs": 0.76
+    },
+    {
+      "patient_id": "P0151",
+      "age": 26,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "severe",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0152",
+      "age": 27,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "mild",
+      "target_brs": 0.65
+    },
+    {
+      "patient_id": "P0153",
+      "age": 65,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "severe",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0154",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "Breast Cancer",
+      "severity": "severe",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0155",
+      "age": 52,
+      "gender": "M",
+      "condition_name": "Lung Cancer",
+      "severity": "severe",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0156",
+      "age": 42,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "mild",
+      "target_brs": 0.85
+    },
+    {
+      "patient_id": "P0157",
+      "age": 63,
+      "gender": "F",
+      "condition_name": "Osteoarthritis",
+      "severity": "mild",
+      "target_brs": 0.45
+    },
+    {
+      "patient_id": "P0158",
+      "age": 31,
+      "gender": "M",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.71
+    },
+    {
+      "patient_id": "P0159",
+      "age": 76,
+      "gender": "M",
+      "condition_name": "Asthma",
+      "severity": "mild",
+      "target_brs": 0.46
+    },
+    {
+      "patient_id": "P0160",
+      "age": 53,
+      "gender": "M",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "moderate",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0161",
+      "age": 79,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.67
+    },
+    {
+      "patient_id": "P0162",
+      "age": 55,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.7
+    },
+    {
+      "patient_id": "P0163",
+      "age": 34,
+      "gender": "F",
+      "condition_name": "Diabetes Type 2",
+      "severity": "moderate",
+      "target_brs": 0.44
+    },
+    {
+      "patient_id": "P0164",
+      "age": 84,
+      "gender": "M",
+      "condition_name": "Diabetes Type 2",
+      "severity": "moderate",
+      "target_brs": 0.75
+    },
+    {
+      "patient_id": "P0165",
+      "age": 37,
+      "gender": "M",
+      "condition_name": "Prostate Cancer",
+      "severity": "mild",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0166",
+      "age": 53,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.9
+    },
+    {
+      "patient_id": "P0167",
+      "age": 79,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0168",
+      "age": 41,
+      "gender": "F",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "severe",
+      "target_brs": 0.68
+    },
+    {
+      "patient_id": "P0169",
+      "age": 64,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.78
+    },
+    {
+      "patient_id": "P0170",
+      "age": 61,
+      "gender": "M",
+      "condition_name": "Lung Cancer",
+      "severity": "mild",
+      "target_brs": 0.65
+    },
+    {
+      "patient_id": "P0171",
+      "age": 36,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "moderate",
+      "target_brs": 0.44
+    },
+    {
+      "patient_id": "P0172",
+      "age": 45,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0173",
+      "age": 35,
+      "gender": "F",
+      "condition_name": "Alzheimer",
+      "severity": "mild",
+      "target_brs": 0.41
+    },
+    {
+      "patient_id": "P0174",
+      "age": 72,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.46
+    },
+    {
+      "patient_id": "P0175",
+      "age": 28,
+      "gender": "M",
+      "condition_name": "Chronic Migraine",
+      "severity": "moderate",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0176",
+      "age": 33,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "severe",
+      "target_brs": 0.35
+    },
+    {
+      "patient_id": "P0177",
+      "age": 25,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "severe",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0178",
+      "age": 46,
+      "gender": "M",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0179",
+      "age": 63,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "moderate",
+      "target_brs": 0.91
+    },
+    {
+      "patient_id": "P0180",
+      "age": 47,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0181",
+      "age": 54,
+      "gender": "M",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0182",
+      "age": 39,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "moderate",
+      "target_brs": 0.42
+    },
+    {
+      "patient_id": "P0183",
+      "age": 42,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "moderate",
+      "target_brs": 0.57
+    },
+    {
+      "patient_id": "P0184",
+      "age": 57,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "moderate",
+      "target_brs": 0.77
+    },
+    {
+      "patient_id": "P0185",
+      "age": 62,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "mild",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0186",
+      "age": 65,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "mild",
+      "target_brs": 0.33
+    },
+    {
+      "patient_id": "P0187",
+      "age": 46,
+      "gender": "M",
+      "condition_name": "Bipolar Disorder",
+      "severity": "moderate",
+      "target_brs": 0.72
+    },
+    {
+      "patient_id": "P0188",
+      "age": 42,
+      "gender": "F",
+      "condition_name": "Parkinson",
+      "severity": "mild",
+      "target_brs": 0.95
+    },
+    {
+      "patient_id": "P0189",
+      "age": 30,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "severe",
+      "target_brs": 0.86
+    },
+    {
+      "patient_id": "P0190",
+      "age": 78,
+      "gender": "F",
+      "condition_name": "Breast Cancer",
+      "severity": "moderate",
+      "target_brs": 0.75
+    },
+    {
+      "patient_id": "P0191",
+      "age": 26,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "moderate",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0192",
+      "age": 44,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "mild",
+      "target_brs": 0.75
+    },
+    {
+      "patient_id": "P0193",
+      "age": 48,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.35
+    },
+    {
+      "patient_id": "P0194",
+      "age": 78,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0195",
+      "age": 77,
+      "gender": "F",
+      "condition_name": "Diabetes Type 2",
+      "severity": "severe",
+      "target_brs": 0.95
+    },
+    {
+      "patient_id": "P0196",
+      "age": 84,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "moderate",
+      "target_brs": 0.84
+    },
+    {
+      "patient_id": "P0197",
+      "age": 76,
+      "gender": "F",
+      "condition_name": "Sleep Apnea",
+      "severity": "moderate",
+      "target_brs": 0.44
+    },
+    {
+      "patient_id": "P0198",
+      "age": 46,
+      "gender": "F",
+      "condition_name": "Breast Cancer",
+      "severity": "mild",
+      "target_brs": 0.69
+    },
+    {
+      "patient_id": "P0199",
+      "age": 58,
+      "gender": "M",
+      "condition_name": "Hepatitis C",
+      "severity": "severe",
+      "target_brs": 0.31
+    },
+    {
+      "patient_id": "P0200",
+      "age": 65,
+      "gender": "M",
+      "condition_name": "Hepatitis C",
+      "severity": "moderate",
+      "target_brs": 0.93
+    },
+    {
+      "patient_id": "P0201",
+      "age": 63,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.38
+    },
+    {
+      "patient_id": "P0202",
+      "age": 64,
+      "gender": "M",
+      "condition_name": "Diabetes Type 2",
+      "severity": "moderate",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0203",
+      "age": 59,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "moderate",
+      "target_brs": 0.6
+    },
+    {
+      "patient_id": "P0204",
+      "age": 29,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "severe",
+      "target_brs": 0.81
+    },
+    {
+      "patient_id": "P0205",
+      "age": 48,
+      "gender": "M",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.45
+    },
+    {
+      "patient_id": "P0206",
+      "age": 76,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "mild",
+      "target_brs": 0.38
+    },
+    {
+      "patient_id": "P0207",
+      "age": 32,
+      "gender": "M",
+      "condition_name": "Diabetes Type 2",
+      "severity": "moderate",
+      "target_brs": 0.42
+    },
+    {
+      "patient_id": "P0208",
+      "age": 57,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "severe",
+      "target_brs": 0.72
+    },
+    {
+      "patient_id": "P0209",
+      "age": 30,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "moderate",
+      "target_brs": 0.57
+    },
+    {
+      "patient_id": "P0210",
+      "age": 54,
+      "gender": "F",
+      "condition_name": "Osteoarthritis",
+      "severity": "severe",
+      "target_brs": 0.81
+    },
+    {
+      "patient_id": "P0211",
+      "age": 50,
+      "gender": "F",
+      "condition_name": "Chronic Migraine",
+      "severity": "mild",
+      "target_brs": 0.73
+    },
+    {
+      "patient_id": "P0212",
+      "age": 71,
+      "gender": "F",
+      "condition_name": "Diabetes Type 2",
+      "severity": "mild",
+      "target_brs": 0.51
+    },
+    {
+      "patient_id": "P0213",
+      "age": 71,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "severe",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0214",
+      "age": 55,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "moderate",
+      "target_brs": 0.5
+    },
+    {
+      "patient_id": "P0215",
+      "age": 59,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "severe",
+      "target_brs": 0.46
+    },
+    {
+      "patient_id": "P0216",
+      "age": 41,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0217",
+      "age": 79,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "mild",
+      "target_brs": 0.41
+    },
+    {
+      "patient_id": "P0218",
+      "age": 61,
+      "gender": "M",
+      "condition_name": "Chronic Migraine",
+      "severity": "severe",
+      "target_brs": 0.91
+    },
+    {
+      "patient_id": "P0219",
+      "age": 34,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.62
+    },
+    {
+      "patient_id": "P0220",
+      "age": 76,
+      "gender": "M",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "moderate",
+      "target_brs": 0.42
+    },
+    {
+      "patient_id": "P0221",
+      "age": 53,
+      "gender": "M",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "severe",
+      "target_brs": 0.56
+    },
+    {
+      "patient_id": "P0222",
+      "age": 52,
+      "gender": "M",
+      "condition_name": "Major Depression",
+      "severity": "moderate",
+      "target_brs": 0.81
+    },
+    {
+      "patient_id": "P0223",
+      "age": 54,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "mild",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0224",
+      "age": 50,
+      "gender": "F",
+      "condition_name": "Hypertension",
+      "severity": "moderate",
+      "target_brs": 0.9
+    },
+    {
+      "patient_id": "P0225",
+      "age": 63,
+      "gender": "M",
+      "condition_name": "Alzheimer",
+      "severity": "severe",
+      "target_brs": 0.5
+    },
+    {
+      "patient_id": "P0226",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "Major Depression",
+      "severity": "severe",
+      "target_brs": 0.48
+    },
+    {
+      "patient_id": "P0227",
+      "age": 84,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.51
+    },
+    {
+      "patient_id": "P0228",
+      "age": 39,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "mild",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0229",
+      "age": 51,
+      "gender": "M",
+      "condition_name": "Major Depression",
+      "severity": "severe",
+      "target_brs": 0.51
+    },
+    {
+      "patient_id": "P0230",
+      "age": 54,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0231",
+      "age": 44,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "mild",
+      "target_brs": 0.93
+    },
+    {
+      "patient_id": "P0232",
+      "age": 70,
+      "gender": "F",
+      "condition_name": "Breast Cancer",
+      "severity": "moderate",
+      "target_brs": 0.51
+    },
+    {
+      "patient_id": "P0233",
+      "age": 71,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.72
+    },
+    {
+      "patient_id": "P0234",
+      "age": 50,
+      "gender": "M",
+      "condition_name": "Hepatitis C",
+      "severity": "severe",
+      "target_brs": 0.55
+    },
+    {
+      "patient_id": "P0235",
+      "age": 35,
+      "gender": "F",
+      "condition_name": "Sleep Apnea",
+      "severity": "severe",
+      "target_brs": 0.68
+    },
+    {
+      "patient_id": "P0236",
+      "age": 34,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "severe",
+      "target_brs": 0.59
+    },
+    {
+      "patient_id": "P0237",
+      "age": 69,
+      "gender": "M",
+      "condition_name": "Bipolar Disorder",
+      "severity": "severe",
+      "target_brs": 0.36
+    },
+    {
+      "patient_id": "P0238",
+      "age": 63,
+      "gender": "M",
+      "condition_name": "Sleep Apnea",
+      "severity": "mild",
+      "target_brs": 0.56
+    },
+    {
+      "patient_id": "P0239",
+      "age": 72,
+      "gender": "M",
+      "condition_name": "Breast Cancer",
+      "severity": "moderate",
+      "target_brs": 0.66
+    },
+    {
+      "patient_id": "P0240",
+      "age": 66,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.74
+    },
+    {
+      "patient_id": "P0241",
+      "age": 29,
+      "gender": "F",
+      "condition_name": "Sleep Apnea",
+      "severity": "severe",
+      "target_brs": 0.67
+    },
+    {
+      "patient_id": "P0242",
+      "age": 27,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "severe",
+      "target_brs": 0.54
+    },
+    {
+      "patient_id": "P0243",
+      "age": 42,
+      "gender": "M",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "mild",
+      "target_brs": 0.35
+    },
+    {
+      "patient_id": "P0244",
+      "age": 80,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.95
+    },
+    {
+      "patient_id": "P0245",
+      "age": 25,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "mild",
+      "target_brs": 0.61
+    },
+    {
+      "patient_id": "P0246",
+      "age": 52,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "moderate",
+      "target_brs": 0.69
+    },
+    {
+      "patient_id": "P0247",
+      "age": 51,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.68
+    },
+    {
+      "patient_id": "P0248",
+      "age": 72,
+      "gender": "F",
+      "condition_name": "Chronic Kidney Disease",
+      "severity": "moderate",
+      "target_brs": 0.7
+    },
+    {
+      "patient_id": "P0249",
+      "age": 58,
+      "gender": "F",
+      "condition_name": "Anxiety Disorder",
+      "severity": "severe",
+      "target_brs": 0.86
+    },
+    {
+      "patient_id": "P0250",
+      "age": 31,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0251",
+      "age": 34,
+      "gender": "F",
+      "condition_name": "Prostate Cancer",
+      "severity": "severe",
+      "target_brs": 0.86
+    },
+    {
+      "patient_id": "P0252",
+      "age": 79,
+      "gender": "F",
+      "condition_name": "Diabetes Type 2",
+      "severity": "severe",
+      "target_brs": 0.65
+    },
+    {
+      "patient_id": "P0253",
+      "age": 30,
+      "gender": "M",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.45
+    },
+    {
+      "patient_id": "P0254",
+      "age": 66,
+      "gender": "F",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "moderate",
+      "target_brs": 0.9
+    },
+    {
+      "patient_id": "P0255",
+      "age": 59,
+      "gender": "M",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.69
+    },
+    {
+      "patient_id": "P0256",
+      "age": 38,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "severe",
+      "target_brs": 0.5
+    },
+    {
+      "patient_id": "P0257",
+      "age": 68,
+      "gender": "M",
+      "condition_name": "Prostate Cancer",
+      "severity": "mild",
+      "target_brs": 0.88
+    },
+    {
+      "patient_id": "P0258",
+      "age": 76,
+      "gender": "M",
+      "condition_name": "Chronic Migraine",
+      "severity": "mild",
+      "target_brs": 0.65
+    },
+    {
+      "patient_id": "P0259",
+      "age": 65,
+      "gender": "M",
+      "condition_name": "Osteoarthritis",
+      "severity": "severe",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0260",
+      "age": 71,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.55
+    },
+    {
+      "patient_id": "P0261",
+      "age": 65,
+      "gender": "F",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.73
+    },
+    {
+      "patient_id": "P0262",
+      "age": 69,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "mild",
+      "target_brs": 0.5
+    },
+    {
+      "patient_id": "P0263",
+      "age": 72,
+      "gender": "F",
+      "condition_name": "Sleep Apnea",
+      "severity": "moderate",
+      "target_brs": 0.59
+    },
+    {
+      "patient_id": "P0264",
+      "age": 29,
+      "gender": "M",
+      "condition_name": "Chronic Migraine",
+      "severity": "mild",
+      "target_brs": 0.4
+    },
+    {
+      "patient_id": "P0265",
+      "age": 50,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "moderate",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0266",
+      "age": 69,
+      "gender": "M",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "mild",
+      "target_brs": 0.31
+    },
+    {
+      "patient_id": "P0267",
+      "age": 64,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "moderate",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0268",
+      "age": 80,
+      "gender": "F",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.9
+    },
+    {
+      "patient_id": "P0269",
+      "age": 83,
+      "gender": "F",
+      "condition_name": "Lung Cancer",
+      "severity": "severe",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0270",
+      "age": 52,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "mild",
+      "target_brs": 0.72
+    },
+    {
+      "patient_id": "P0271",
+      "age": 56,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "mild",
+      "target_brs": 0.45
+    },
+    {
+      "patient_id": "P0272",
+      "age": 32,
+      "gender": "F",
+      "condition_name": "Alzheimer\u2019s Disease",
+      "severity": "moderate",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0273",
+      "age": 45,
+      "gender": "M",
+      "condition_name": "Asthma",
+      "severity": "mild",
+      "target_brs": 0.92
+    },
+    {
+      "patient_id": "P0274",
+      "age": 26,
+      "gender": "M",
+      "condition_name": "Bipolar Disorder",
+      "severity": "severe",
+      "target_brs": 0.62
+    },
+    {
+      "patient_id": "P0275",
+      "age": 74,
+      "gender": "M",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.77
+    },
+    {
+      "patient_id": "P0276",
+      "age": 30,
+      "gender": "F",
+      "condition_name": "Thyroid Disorders",
+      "severity": "severe",
+      "target_brs": 0.8
+    },
+    {
+      "patient_id": "P0277",
+      "age": 66,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0278",
+      "age": 82,
+      "gender": "F",
+      "condition_name": "Sleep Apnea",
+      "severity": "severe",
+      "target_brs": 0.73
+    },
+    {
+      "patient_id": "P0279",
+      "age": 81,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0280",
+      "age": 60,
+      "gender": "F",
+      "condition_name": "HIV/AIDS",
+      "severity": "severe",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0281",
+      "age": 52,
+      "gender": "F",
+      "condition_name": "Diabetes Type 2",
+      "severity": "moderate",
+      "target_brs": 0.64
+    },
+    {
+      "patient_id": "P0282",
+      "age": 62,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "severe",
+      "target_brs": 0.63
+    },
+    {
+      "patient_id": "P0283",
+      "age": 36,
+      "gender": "F",
+      "condition_name": "Hypertension",
+      "severity": "severe",
+      "target_brs": 0.77
+    },
+    {
+      "patient_id": "P0284",
+      "age": 55,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "moderate",
+      "target_brs": 0.66
+    },
+    {
+      "patient_id": "P0285",
+      "age": 33,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "mild",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0286",
+      "age": 51,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "moderate",
+      "target_brs": 0.33
+    },
+    {
+      "patient_id": "P0287",
+      "age": 81,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "mild",
+      "target_brs": 0.52
+    },
+    {
+      "patient_id": "P0288",
+      "age": 51,
+      "gender": "M",
+      "condition_name": "Parkinson's Disease",
+      "severity": "mild",
+      "target_brs": 0.39
+    },
+    {
+      "patient_id": "P0289",
+      "age": 65,
+      "gender": "F",
+      "condition_name": "Breast Cancer",
+      "severity": "mild",
+      "target_brs": 0.53
+    },
+    {
+      "patient_id": "P0290",
+      "age": 39,
+      "gender": "M",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "mild",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0291",
+      "age": 28,
+      "gender": "M",
+      "condition_name": "Major Depression",
+      "severity": "severe",
+      "target_brs": 0.73
+    },
+    {
+      "patient_id": "P0292",
+      "age": 28,
+      "gender": "F",
+      "condition_name": "Alzheimer's Disease",
+      "severity": "moderate",
+      "target_brs": 0.94
+    },
+    {
+      "patient_id": "P0293",
+      "age": 66,
+      "gender": "M",
+      "condition_name": "COPD",
+      "severity": "mild",
+      "target_brs": 0.66
+    },
+    {
+      "patient_id": "P0294",
+      "age": 59,
+      "gender": "F",
+      "condition_name": "Bipolar Disorder",
+      "severity": "mild",
+      "target_brs": 0.79
+    },
+    {
+      "patient_id": "P0295",
+      "age": 38,
+      "gender": "F",
+      "condition_name": "Chronic Migraine",
+      "severity": "moderate",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0296",
+      "age": 50,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.75
+    },
+    {
+      "patient_id": "P0297",
+      "age": 61,
+      "gender": "F",
+      "condition_name": "Crohn's Disease",
+      "severity": "mild",
+      "target_brs": 0.37
+    },
+    {
+      "patient_id": "P0298",
+      "age": 64,
+      "gender": "M",
+      "condition_name": "Parkinson\u2019s Disease",
+      "severity": "moderate",
+      "target_brs": 0.88
+    },
+    {
+      "patient_id": "P0299",
+      "age": 55,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "severe",
+      "target_brs": 0.64
+    },
+    {
+      "patient_id": "P0300",
+      "age": 47,
+      "gender": "F",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "mild",
+      "target_brs": 0.85
+    },
+    {
+      "patient_id": "P0301",
+      "age": 48,
+      "gender": "F",
+      "condition_name": "Rheumatoid Arthritis",
+      "severity": "moderate",
+      "target_brs": 0.4
+    },
+    {
+      "patient_id": "P0302",
+      "age": 82,
+      "gender": "F",
+      "condition_name": "Asthma",
+      "severity": "mild",
+      "target_brs": 0.82
+    },
+    {
+      "patient_id": "P0303",
+      "age": 26,
+      "gender": "F",
+      "condition_name": "Coronary Artery Disease",
+      "severity": "mild",
+      "target_brs": 0.81
+    },
+    {
+      "patient_id": "P0304",
+      "age": 44,
+      "gender": "F",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "moderate",
+      "target_brs": 0.91
+    },
+    {
+      "patient_id": "P0305",
+      "age": 26,
+      "gender": "M",
+      "condition_name": "Multiple Sclerosis",
+      "severity": "moderate",
+      "target_brs": 0.83
+    },
+    {
+      "patient_id": "P0306",
+      "age": 63,
+      "gender": "M",
+      "condition_name": "Thyroid Disorders",
+      "severity": "mild",
+      "target_brs": 0.85
+    },
+    {
+      "patient_id": "P0307",
+      "age": 33,
+      "gender": "M",
+      "condition_name": "HIV/AIDS",
+      "severity": "mild",
+      "target_brs": 0.67
+    },
+    {
+      "patient_id": "P0308",
+      "age": 53,
+      "gender": "M",
+      "condition_name": "Ulcerative Colitis",
+      "severity": "severe",
+      "target_brs": 0.32
+    },
+    {
+      "patient_id": "P0309",
+      "age": 64,
+      "gender": "M",
+      "condition_name": "Anxiety Disorder",
+      "severity": "severe",
+      "target_brs": 0.63
+    },
+    {
+      "patient_id": "P0310",
+      "age": 34,
+      "gender": "M",
+      "condition_name": "Diabetes Type 2",
+      "severity": "severe",
+      "target_brs": 0.55
+    }
+  ]
+}

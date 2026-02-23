@@ -9,7 +9,7 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 class VectorStore:
-    def __init__(self, index_path: str = "processed/vector_index"):
+    def __init__(self, index_path: str = "backend/processed/vector_index"):
         self.index_path = index_path
         self.index = None
         self.documents = []  # Store document metadata
@@ -20,10 +20,18 @@ class VectorStore:
     def initialize_index(self):
         """Initialize or load existing FAISS index"""
         try:
+            # 🔍 DEBUG START
+            print(f"🔍 Looking for index at: {self.index_path}")
+            print(f"Exists (.faiss): {os.path.exists(self.index_path + '.faiss')}")
+            print(f"Exists (.pkl): {os.path.exists(self.index_path + '.pkl')}")
+            # 🔍 DEBUG END
+            
             if os.path.exists(f"{self.index_path}.faiss"):
                 self.index = faiss.read_index(f"{self.index_path}.faiss")
                 with open(f"{self.index_path}.pkl", 'rb') as f:
-                    self.documents = pickle.load(f)
+                    data = pickle.load(f)
+                    self.documents = data.get("documents", [])
+                    self.embeddings = data.get("embeddings", [])
                 logger.info(f"Loaded existing index with {len(self.documents)} documents")
             else:
                 # Create new index
@@ -89,7 +97,10 @@ class VectorStore:
         try:
             faiss.write_index(self.index, f"{self.index_path}.faiss")
             with open(f"{self.index_path}.pkl", 'wb') as f:
-                pickle.dump(self.documents, f)
+                pickle.dump({
+                    "documents": self.documents,
+                    "embeddings": self.embeddings
+                }, f)
             logger.info("Saved index to disk")
         except Exception as e:
             logger.error(f"Error saving index: {str(e)}")

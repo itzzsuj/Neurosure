@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+import sys
 import uuid
 import json
 import logging
@@ -12,11 +14,19 @@ from celery import Celery
 import threading
 import time
 
+
+project_root = str(Path(__file__).parent.parent)  # Goes up to Neurosure folder
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from layers.cds_calculator import CDSCalculator
+from layers.erg_calculator import ERGCalculator  # ✅ ONLY THIS LINE ADDED
 from utils.pdf_processor import PDFProcessor
 from utils.embeddings import EmbeddingGenerator
 from utils.vector_store import VectorStore
 from utils.clause_analyzer import ClauseAnalyzer
 from models.schema import AnalysisJob, Clause, Disease
+from layers.pai_calculator import PAICalculator
 
 # Load environment variables
 load_dotenv()
@@ -28,6 +38,10 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
+
+cds_calculator = CDSCalculator()
+erg_calculator = ERGCalculator()
+pai_calculator = PAICalculator()    # ✅ ONLY THIS LINE ADDED
 
 # Configuration
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -203,6 +217,8 @@ def precompute_disease_embeddings():
         disease_embeddings[disease['value']] = enhanced_embedding
         disease_categories[disease['value']] = disease['category']
 
+
+
 @app.route('/api/analysis/status/<job_id>', methods=['GET'])
 def get_job_status(job_id):
     """Get processing status for a job"""
@@ -220,7 +236,7 @@ def get_job_status(job_id):
 
 @app.route('/api/analysis/extract', methods=['POST'])
 def extract_clauses():
-    """Extract relevant clauses based on disease"""
+    """Extract relevant clauses based on disease and calculate CDS + ERG + PAI scores"""
     try:
         data = request.json
         disease = data.get('disease', '')
@@ -289,12 +305,34 @@ def extract_clauses():
             disease_category
         )
         
+        # Calculate CDS score (Coverage support)
+        cds_score = cds_calculator.calculate_from_retrieved_clauses(
+            retrieved_clauses=clauses,
+            disease_name=disease_name
+        )
+        
+        # Calculate ERG score (Exclusion risk)
+        erg_score = erg_calculator.calculate_from_retrieved_clauses(
+            retrieved_clauses=clauses,
+            disease_name=disease_name
+        )
+        
+        # Calculate PAI score (Policy Ambiguity)
+        pai_score = pai_calculator.calculate_from_retrieved_clauses(
+            retrieved_clauses=clauses,
+            disease_name=disease_name,
+            clause_embeddings=None
+        )
+        
         return jsonify({
             'success': True,
             'clauses': clauses,
             'disease': disease_name,
+            'cds_score': cds_score,
+            'erg_score': erg_score,
+            'pai_score': pai_score,
             'disease_category': disease_category,
-            'queries_used': queries_used[:5],  # Return top 5 queries for display
+            'queries_used': queries_used[:5],
             'total_clauses_found': len(clauses)
         })
         

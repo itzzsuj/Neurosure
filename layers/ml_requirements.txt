@@ -1,0 +1,62 @@
+# ============================================
+# CORE ML & DATA PROCESSING
+# ============================================
+numpy==1.26.4
+pandas==3.0.1
+scikit-learn==1.8.0
+scipy==1.15.3
+
+# ============================================
+# ML MODELS (For BRS - train_brs_final_90.py)
+# ============================================
+xgboost==2.1.4
+
+# ============================================
+# VISUALIZATION (For confusion matrices, plots)
+# ============================================
+matplotlib==3.10.1
+seaborn==0.13.2
+
+# ============================================
+# FILE HANDLING & UTILITIES
+# ============================================
+joblib==1.3.2
+
+# ============================================
+# NLP & EMBEDDINGS (For CDS, ERG, PAI)
+# ============================================
+# Note: pai_calculator.py uses cosine_similarity from sklearn (already included)
+# No additional NLP packages needed - they use your existing backend
+
+# ============================================
+# FLASK BACKEND (For app.py - your main backend)
+# ============================================
+flask==3.1.0
+flask-cors==5.0.1
+werkzeug==3.1.3
+python-dotenv==1.1.0
+
+# ============================================
+# PDF PROCESSING (For policy documents)
+# ============================================
+PyPDF2==3.0.1
+pdfplumber==0.11.6
+spacy==3.8.5
+nltk==3.9.1
+
+# Download spacy model after install
+# python -m spacy download en_core_web_sm
+
+# ============================================
+# EMBEDDINGS & VECTOR SEARCH (For clause retrieval)
+# ============================================
+sentence-transformers==3.4.1
+transformers==4.50.3
+torch==2.6.0
+faiss-cpu==1.10.0
+
+# ============================================
+# UTILITIES
+# ============================================
+requests==2.32.3
+tqdm==4.67.1
