@@ -198,7 +198,7 @@ const Login = () => {
       );
 
       console.log("Logged in:", userCredential.user);
-      navigate("/dashboard");
+      navigate("/claim");
     } catch (err) {
       console.error(err);
 

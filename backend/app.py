@@ -22,11 +22,14 @@ if project_root not in sys.path:
 from layers.cds_calculator import CDSCalculator
 from layers.erg_calculator import ERGCalculator
 from utils.pdf_processor import PDFProcessor
+from routes.brs import brs_bp
 from utils.embeddings import EmbeddingGenerator
 from utils.vector_store import VectorStore
 from utils.clause_analyzer import ClauseAnalyzer
 from models.schema import AnalysisJob, Clause, Disease
 from layers.pai_calculator import PAICalculator
+from models.schema import PatientProfile, ClaimEvaluationRequest
+from utils.decision_engine import DecisionEngine
 
 # Load environment variables
 load_dotenv()
@@ -303,21 +306,21 @@ def extract_clauses():
             disease_category
         )
         
-        # 🔥 UPDATED: Capture CDS score AND report
+        # Capture CDS score AND report
         cds_score, cds_report = cds_calculator.calculate_from_retrieved_clauses(
             retrieved_clauses=clauses,
             disease_name=disease_name,
             return_report=True
         )
         
-        # 🔥 UPDATED: Capture ERG score AND report
+        # Capture ERG score AND report
         erg_score, erg_report = erg_calculator.calculate_from_retrieved_clauses(
             retrieved_clauses=clauses,
             disease_name=disease_name,
             return_report=True
         )
         
-        # 🔥 UPDATED: Capture PAI score AND report
+        # Capture PAI score AND report
         pai_score, pai_report = pai_calculator.calculate_from_retrieved_clauses(
             retrieved_clauses=clauses,
             disease_name=disease_name,
@@ -325,7 +328,7 @@ def extract_clauses():
             return_report=True
         )
         
-        # 🔥 Combine all reports into one detailed report
+        # Combine all reports into one detailed report
         detailed_report = f"{cds_report}\n\n{erg_report}\n\n{pai_report}"
         
         return jsonify({
@@ -338,7 +341,7 @@ def extract_clauses():
             'disease_category': disease_category,
             'queries_used': queries_used[:5],
             'total_clauses_found': len(clauses),
-            'detailed_report': detailed_report  # 🔥 NEW: Send report to frontend
+            'detailed_report': detailed_report
         })
         
     except Exception as e:
@@ -365,6 +368,138 @@ def clear_all_documents():
     except Exception as e:
         logger.error(f"Clear error: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
+    
+# Initialize decision engine (add after other initializations)
+decision_engine = DecisionEngine(clause_analyzer)
+
+@app.route('/api/analysis/evaluate-claim', methods=['POST'])
+def evaluate_claim():
+    """
+    Evaluate a claim based on patient profile and policy
+    """
+    try:
+        data = request.json
+        patient_data = data.get('patient', {})
+        disease = data.get('disease', '')
+        
+        if not patient_data:
+            return jsonify({'success': False, 'error': 'Patient data required'}), 400
+        
+        # Create patient profile
+        patient = PatientProfile(
+            age=patient_data.get('age', 0),
+            pre_existing_conditions=patient_data.get('pre_existing_conditions', []),
+            enrollment_date=patient_data.get('enrollment_date', ''),
+            application_date=patient_data.get('application_date', '')
+        )
+        
+        # Get disease info
+        disease_info = next((d for d in DISEASES if d['value'] == disease), None)
+        if not disease_info:
+            disease_info = {'label': disease, 'category': 'General'}
+        
+        disease_name = disease_info['label']
+        
+        # Generate disease embedding
+        disease_embedding = embedding_generator.generate_enhanced_embedding(
+            disease_name,
+            disease_info.get('category', 'General')
+        )
+        
+        # Search for relevant clauses
+        similar_docs = vector_store.search_similar(
+            query_embedding=disease_embedding,
+            n_results=30  # Get more clauses for better coverage
+        )
+        
+        # Format clauses
+        clauses = []
+        for i, doc in enumerate(similar_docs):
+            clause = {
+                'id': f"clause_{i+1}",
+                'text': doc['text'],
+                'page': doc.get('page', 1),
+                'similarity_score': doc['score']
+            }
+            clauses.append(clause)
+        
+        # Evaluate claim using decision engine
+        result = decision_engine.evaluate_claim(
+            patient=patient,
+            clauses=clauses,
+            disease_name=disease_name
+        )
+        
+        # Calculate scores using the alignments from the result
+        if result.get('success') and 'alignment' in result:
+            alignments = result['alignment'].get('alignments', [])
+            
+            # Calculate CDS score using alignments
+            cds_score, cds_report = cds_calculator.calculate_from_retrieved_clauses(
+                retrieved_clauses=alignments,
+                disease_name=disease_name,
+                return_report=True
+            )
+            
+            # Calculate ERG score using alignments
+            erg_score, erg_report = erg_calculator.calculate_from_retrieved_clauses(
+                retrieved_clauses=alignments,
+                disease_name=disease_name,
+                return_report=True
+            )
+            
+            # Calculate PAI score using alignments
+            pai_score, pai_report = pai_calculator.calculate_from_retrieved_clauses(
+                retrieved_clauses=alignments,
+                disease_name=disease_name,
+                clause_embeddings=None,
+                return_report=True
+            )
+            
+            # Add scores to result
+            result['cds_score'] = cds_score
+            result['erg_score'] = erg_score
+            result['pai_score'] = pai_score
+            result['detailed_report'] = f"{cds_report}\n\n{erg_report}\n\n{pai_report}"
+            
+            # Also add to summary
+            if 'summary' not in result:
+                result['summary'] = {}
+            result['summary']['cds'] = cds_score
+            result['summary']['erg'] = erg_score
+            result['summary']['pai'] = pai_score
+        
+        # Also add decision info at top level for easier access
+        if 'summary' in result:
+            result['decision'] = result['summary']['decision']
+            result['reason'] = result['summary']['reason']
+            result['confidence'] = result['summary']['confidence']
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Claim evaluation error: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# Add endpoint to get claim history
+@app.route('/api/analysis/claim-history', methods=['GET'])
+def get_claim_history():
+    """Get history of claim evaluations (placeholder)"""
+    return jsonify({
+        'success': True,
+        'history': []
+    })
+
+# Add endpoint for policy comparison
+@app.route('/api/analysis/compare-policies', methods=['POST'])
+def compare_policies():
+    """Compare multiple policies (placeholder)"""
+    return jsonify({
+        'success': True,
+        'comparison': {}
+    })
+
+app.register_blueprint(brs_bp)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

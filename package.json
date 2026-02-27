@@ -7,10 +7,12 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
+    "@mui/x-date-pickers": "^8.27.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
+    "date-fns": "^4.1.0",
     "firebase": "^12.9.0",
     "framer-motion": "^12.34.1",
     "react": "^19.2.4",
@@ -25,7 +27,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "seed": "node src/scripts/runSeed.js",
+    "seed:patients": "node src/scripts/seedPatients.js"
   },
   "eslintConfig": {
     "extends": [

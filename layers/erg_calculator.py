@@ -3,152 +3,144 @@ import math
 
 class ERGCalculator:
     """
-    Calculates Exclusion Risk Gradient from retrieved clauses
-    ERG = 1 - exp(- (Weighted risk from Exclusion and Waiting Period clauses) / 
-                 (Total relevance of meaningful clauses))
+    Calculates Exclusion Risk Gradient from constraint alignments
+    ERG = 1 - exp(- (Weighted risk from contradictions) / (Total constraints))
     """
     
     def calculate_from_retrieved_clauses(self, retrieved_clauses, disease_name, return_report=False):
         """
+        This method is called from app.py - it should receive alignments
+        """
+        # Check if we're getting alignments
+        if retrieved_clauses and isinstance(retrieved_clauses[0], dict) and 'alignment_score' in retrieved_clauses[0]:
+            return self.calculate_from_alignments(retrieved_clauses, disease_name, return_report)
+        else:
+            msg = f"\n📊 Calculating ERG for {disease_name} - No alignments found"
+            print(msg)
+            if return_report:
+                return 0.0, msg
+            return 0.0
+    
+    def calculate_from_alignments(self, alignments, disease_name, return_report=False):
+        """
+        Calculate ERG from constraint alignments
+        
         Args:
-            retrieved_clauses: List of clause dicts from /api/analysis/extract
+            alignments: List of ConstraintAlignment objects from patient_aligner
             disease_name: Name of the disease being checked
             return_report: If True, returns (score, report_text) tuple
-            
-        Returns:
-            erg_score: Single float between 0-1
-            OR (score, report_text) if return_report=True
         """
         
         report_lines = []
         
-        if not retrieved_clauses:
-            msg = f"\n📊 Calculating ERG for {disease_name} - No clauses found"
+        if not alignments:
+            msg = f"\n📊 Calculating ERG for {disease_name} - No alignments found"
             print(msg)
             report_lines.append(msg)
             return (0.0, "\n".join(report_lines)) if return_report else 0.0
 
-        header = f"\n📊 Calculating ERG for {disease_name} from {len(retrieved_clauses)} clauses"
-        separator1 = "=" * 70
-        separator2 = "=" * 70
-        line1 = "⚠️  Waiting Period clauses count as RISK (delayed exclusion)"
-        line2 = "⚪ General/Definition clauses IGNORED (don't affect score)"
-        line3 = "📈 Using nonlinear saturation: ERG = 1 - exp(-raw_risk)"
+        header = f"\n📊 Calculating ERG for {disease_name} from {len(alignments)} constraints"
+        separator = "=" * 70
+        line1 = "⚠️  Contradictions contribute directly to risk"
+        line2 = "📈 Using nonlinear saturation: ERG = 1 - exp(-weighted_risk)"
         
         print(header)
-        print(separator1)
+        print(separator)
         print(line1)
         print(line2)
-        print(line3)
-        print(separator2)
+        print(separator)
         
         report_lines.append(header)
-        report_lines.append(separator1)
+        report_lines.append(separator)
         report_lines.append(line1)
         report_lines.append(line2)
-        report_lines.append(line3)
-        report_lines.append(separator2)
+        report_lines.append(separator)
 
         total_risk_score = 0.0
-        total_meaningful_relevance = 0.0
-        weak_matches_skipped = 0
-        general_clauses_ignored = 0
+        total_constraints = len(alignments)
         
-        exclusion_count = 0
-        waiting_count = 0
-        exclusion_with_mention_count = 0
-        waiting_with_mention_count = 0
+        # Track risk by type
+        risk_by_type = {
+            'waiting_period': {'count': 0, 'risk': 0.0},
+            'age_limit': {'count': 0, 'risk': 0.0},
+            'pre_existing': {'count': 0, 'risk': 0.0},
+            'disease_coverage': {'count': 0, 'risk': 0.0}
+        }
+        
+        contradictions_count = 0
 
-        for i, clause in enumerate(retrieved_clauses, 1):
-            relevance = clause.get('similarity_score', 0)
-            category = clause.get('category', 'General')
-            disease_mentioned = clause.get('disease_mentioned', False)
+        for i, alignment in enumerate(alignments, 1):
+            # Handle both dict and object
+            if hasattr(alignment, 'to_dict'):
+                alignment = alignment.to_dict()
+                
+            constraint = alignment.get('constraint', {})
+            alignment_score = alignment.get('alignment_score', 0)
+            contradiction = alignment.get('contradiction', False)
+            risk_level = alignment.get('risk_level', 0)
+            reason = alignment.get('contradiction_reason', '')
             
-            if relevance < 0.3:
-                weak_matches_skipped += 1
-                line = f"   {i}. ⚠️ SKIPPED (weak): {category} - rel={relevance:.2f}"
-                print(line)
-                report_lines.append(line)
-                continue
-
-            if category in ['Coverage', 'Exclusion', 'Waiting Period']:
-                total_meaningful_relevance += relevance
+            constraint_type = constraint.get('type', 'unknown')
+            
+            if contradiction:
+                contradictions_count += 1
+                risk = risk_level
+                total_risk_score += risk
+                
+                if constraint_type in risk_by_type:
+                    risk_by_type[constraint_type]['count'] += 1
+                    risk_by_type[constraint_type]['risk'] += risk
+                
+                line = f"   {i}. 🔴 CONTRADICTION ({constraint_type}): risk={risk:.2f}"
+                if reason:
+                    line += f"\n      → {reason}"
             else:
-                general_clauses_ignored += 1
-                line = f"   {i}. ⚪ IGNORED (General): {category} - rel={relevance:.2f}"
-                print(line)
-                report_lines.append(line)
-                continue
+                risk = 0.0
+                line = f"   {i}. ✅ SATISFIED ({constraint_type}): alignment={alignment_score:.2f}"
+            
+            print(line)
+            report_lines.append(line)
 
-            if category == 'Exclusion':
-                risk = relevance
-                exclusion_count += 1
-                
-                if disease_mentioned:
-                    risk *= 2.0
-                    exclusion_with_mention_count += 1
-                    line = f"   {i}. 🔴🔴 EXCLUSION (with mention): rel={relevance:.2f} → risk={risk:.2f}"
-                else:
-                    line = f"   {i}. 🔴 EXCLUSION: rel={relevance:.2f} → risk={risk:.2f}"
-                
-                print(line)
-                report_lines.append(line)
-                total_risk_score += risk
-
-            elif category == 'Waiting Period':
-                risk = relevance * 0.8
-                waiting_count += 1
-                
-                if disease_mentioned:
-                    risk *= 1.5
-                    waiting_with_mention_count += 1
-                    line = f"   {i}. 🟠🟠 WAITING (with mention): rel={relevance:.2f} → risk={risk:.2f}"
-                else:
-                    line = f"   {i}. 🟠 WAITING: rel={relevance:.2f} → risk={risk:.2f}"
-                
-                print(line)
-                report_lines.append(line)
-                total_risk_score += risk
-
-            elif category == 'Coverage':
-                line = f"   {i}. ✅ COVERAGE: rel={relevance:.2f} (adds to denominator only)"
-                print(line)
-                report_lines.append(line)
-
-        if total_meaningful_relevance > 0:
-            raw_risk = total_risk_score / total_meaningful_relevance
+        # Calculate weighted risk
+        if total_constraints > 0:
+            # Weighted risk - contradictions have higher weight
+            weighted_risk = (total_risk_score * 1.5) / total_constraints
+            weighted_risk = min(weighted_risk, 1.0)
+            
+            # Nonlinear saturation
+            alpha = 0.9
+            erg_score = 1 - math.exp(-alpha * weighted_risk)
         else:
-            raw_risk = 0.0
+            weighted_risk = 0.0
+            erg_score = 0.0
 
-        alpha = 0.9
-        erg_score = 1 - math.exp(-alpha * raw_risk)
-
-        print(separator2)
-        report_lines.append(separator2)
+        print(separator)
+        report_lines.append(separator)
         
-        breakdown = f"""
+        # Risk breakdown by type
+        breakdown = "\n📊 RISK BREAKDOWN BY TYPE:\n"
+        for rtype, data in risk_by_type.items():
+            if data['count'] > 0:
+                breakdown += f"   • {rtype}: {data['count']} contradictions, avg risk {data['risk']/data['count']:.2f}\n"
+        
+        summary = f"""
 📊 ERG DETAILED BREAKDOWN:
-   Risk Contributions:
-     - Exclusions: {exclusion_count} total ({exclusion_with_mention_count} with mention)
-     - Waiting periods: {waiting_count} total ({waiting_with_mention_count} with mention)
-
+{breakdown}
    Raw Statistics:
+     Total constraints: {total_constraints}
+     Contradictions: {contradictions_count}
      Total risk score: {total_risk_score:.3f}
-     Total meaningful relevance: {total_meaningful_relevance:.3f}
-     Raw risk ratio: {raw_risk:.3f}
+     Weighted risk: {weighted_risk:.3f}
 
    📈 Nonlinear Transformation:
-     ERG = 1 - exp(-{raw_risk:.3f}) = {erg_score:.3f}
+     ERG = 1 - exp(-{weighted_risk:.3f}) = {erg_score:.3f}
 
 📊 ERG SUMMARY:
-   Total clauses received: {len(retrieved_clauses)}
-   Weak matches skipped (rel<0.3): {weak_matches_skipped}
-   General clauses ignored: {general_clauses_ignored}
-   Meaningful clauses used: {len(retrieved_clauses) - weak_matches_skipped - general_clauses_ignored}
+   Contradiction rate: {contradictions_count/total_constraints*100:.1f}%
 🔴 FINAL ERG Score for {disease_name}: {erg_score:.3f}"""
         
-        print(breakdown)
-        report_lines.append(breakdown)
+        print(summary)
+        report_lines.append(summary)
         
         if return_report:
             return erg_score, "\n".join(report_lines)

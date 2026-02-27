@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Seed Medical Vault</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #00695C;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h1 span {
+      font-size: 2rem;
+    }
+    .info {
+      background: #e8f5e9;
+      border-left: 4px solid #00695C;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    button {
+      background: #00695C;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 40px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px 0;
+      width: 100%;
+    }
+    button:hover {
+      background: #004d40;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,105,92,0.3);
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .output {
+      background: #1e1e1e;
+      color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 14px;
+      height: 300px;
+      overflow-y: auto;
+      margin: 20px 0;
+    }
+    .status {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      display: none;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-card .label {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .stat-card .value {
+      color: #00695C;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .warning {
+      background: #fff3cd;
+      color: #856404;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      <span>🌱</span>
+      Seed Medical Vault
+    </h1>
+    
+    <div class="info">
+      <strong>⚠️ Important:</strong> This will add 50 sample patients to your Firestore database. 
+      Make sure you're connected to the correct Firebase project.
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="label">Patients to Add</div>
+        <div class="value">50</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Claims per Patient</div>
+        <div class="value">0-7</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Est. Total Claims</div>
+        <div class="value">~175</div>
+      </div>
+    </div>
+
+    <div class="warning" id="configWarning" style="display: none;">
+      ⚠️ Please update your Firebase configuration in this file first!
+    </div>
+
+    <button id="seedBtn">🌱 Seed 50 Patients</button>
+    
+    <div id="status" class="status"></div>
+    
+    <div class="output" id="output">
+      Ready to seed... Click the button to start.
+    </div>
+
+    <p style="color: #666; font-size: 12px; text-align: center; margin-top: 20px;">
+      This will create sample patients in your Firestore database. 
+      Refresh your Medical Vault page after completion.
+    </p>
+  </div>
+
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    
+    // 🔴 IMPORTANT: Replace with your actual Firebase config from src/firebase.js
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCrLOHagtzcyYldc5_acb1jMQ5V9QDI7M4",
+        authDomain: "neurosure-auth.firebaseapp.com",
+        projectId: "neurosure-auth",
+        storageBucket: "neurosure-auth.firebasestorage.app",
+        messagingSenderId: "429943292168",
+        appId: "1:429943292168:web:7c42882254b34e2959acbd"
+    };
+    
+    // Check if config is still default
+    const configWarning = document.getElementById('configWarning');
+    if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+      configWarning.style.display = 'block';
+    }
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    // ================= SAMPLE DATA =================
+    const firstNames = [
+      'Raj', 'Priya', 'Amit', 'Sunita', 'Vikram', 'Deepa', 'Sanjay', 'Anjali', 'Rahul', 'Meera',
+      'Arjun', 'Kavita', 'Manoj', 'Pooja', 'Ravi', 'Neha', 'Suresh', 'Lata', 'Dinesh', 'Shweta',
+      'Ajay', 'Rekha', 'Vivek', 'Jyoti', 'Prakash', 'Anita', 'Gopal', 'Sarita', 'Naveen', 'Kiran',
+      'Harish', 'Divya', 'Mukesh', 'Ritu', 'Jatin', 'Geeta', 'Kunal', 'Sangeeta', 'Nitin', 'Shilpa',
+      'Ashok', 'Pallavi', 'Ramesh', 'Madhuri', 'Sachin', 'Vandana', 'Mahesh', 'Shobha', 'Anil', 'Usha'
+    ];
+
+    const lastNames = [
+      'Sharma', 'Verma', 'Patel', 'Singh', 'Kumar', 'Gupta', 'Joshi', 'Malhotra', 'Reddy', 'Nair',
+      'Menon', 'Desai', 'Mehta', 'Choudhary', 'Thakur', 'Yadav', 'Mishra', 'Trivedi', 'Bose', 'Chatterjee',
+      'Iyer', 'Rao', 'Naidu', 'Pillai', 'Kurian', 'George', 'D\'Souza', 'Fernandes', 'Khan', 'Ansari'
+    ];
+
+    const conditions = [
+      'Diabetes Type 2', 'Hypertension', 'Asthma', 'Coronary Artery Disease', 'COPD',
+      'Rheumatoid Arthritis', 'Osteoarthritis', 'Chronic Kidney Disease', 'Hypothyroidism',
+      'Major Depression', 'Anxiety Disorder', 'Migraine', 'Sleep Apnea', 'Cataract',
+      'GERD', 'IBS', 'Psoriasis', 'Hepatitis B'
+    ];
+
+    const locations = ['urban_metro', 'urban_small', 'suburban', 'rural_town', 'rural_village'];
+    const incomeLevels = ['low', 'middle_low', 'middle', 'middle_high', 'high'];
+    const educationLevels = ['high_school', 'bachelors', 'masters', 'phd', 'professional'];
+    const employmentStatus = ['employed_full', 'employed_part', 'self_employed', 'retired'];
+    const genders = ['M', 'F'];
+    const severities = ['mild', 'moderate', 'severe'];
+    const claimTypes = ['routine', 'emergency', 'hospitalization', 'outpatient', 'surgery'];
+    
+    // ================= HELPER FUNCTIONS =================
+    const randomDate = (start, end) => {
+      return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    };
+
+    const randomAmount = (min, max) => {
+      return Math.round((Math.random() * (max - min) + min) / 100) * 100;
+    };
+
+    const generateClaims = (condition) => {
+      const numClaims = Math.floor(Math.random() * 6); // 0-5 claims
+      const claims = [];
+      const startDate = new Date(2022, 0, 1);
+      const endDate = new Date();
+      
+      for (let i = 0; i < numClaims; i++) {
+        const date = randomDate(startDate, endDate);
+        const claimType = claimTypes[Math.floor(Math.random() * claimTypes.length)];
+        const isEmergency = claimType === 'emergency';
+        const amount = randomAmount(
+          isEmergency ? 15000 : 2000,
+          isEmergency ? 60000 : 15000
+        );
+        const approved = Math.random() > 0.15; // 85% approval rate
+        
+        claims.push({
+          date: date.toISOString().split('T')[0],
+          claimType,
+          amount,
+          diagnosis: condition,
+          approved
+        });
+      }
+      return claims;
+    };
+
+    const calculateBRS = (claims) => {
+      if (claims.length === 0) return Number((0.75 + Math.random() * 0.2).toFixed(2));
+      const approved = claims.filter(c => c.approved).length;
+      const approvalRate = approved / claims.length;
+      const emergencyCount = claims.filter(c => c.claimType === 'emergency').length;
+      const emergencyRatio = emergencyCount / claims.length;
+      const brs = (approvalRate * 0.7) + (1 - emergencyRatio) * 0.3;
+      return Number((brs * 0.9 + 0.1).toFixed(2)); // Scale to 0.1-1.0 range
+    };
+
+    const generatePatient = (index) => {
+      const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const name = `${firstName} ${lastName}`;
+      const age = Math.floor(Math.random() * 50) + 25; // 25-75 years
+      const gender = genders[Math.floor(Math.random() * genders.length)];
+      const condition = conditions[Math.floor(Math.random() * conditions.length)];
+      const claims = generateClaims(condition);
+      const brsScore = calculateBRS(claims);
+      
+      return {
+        patientId: `P${String(index + 1).padStart(3, '0')}`,
+        name,
+        age,
+        gender,
+        location: locations[Math.floor(Math.random() * locations.length)],
+        incomeLevel: incomeLevels[Math.floor(Math.random() * incomeLevels.length)],
+        education: educationLevels[Math.floor(Math.random() * educationLevels.length)],
+        employment: employmentStatus[Math.floor(Math.random() * employmentStatus.length)],
+        primaryCondition: condition,
+        secondaryConditions: Math.random() > 0.7 ? [conditions[Math.floor(Math.random() * conditions.length)]] : [],
+        diagnosisYear: new Date().getFullYear() - Math.floor(Math.random() * 10) - 1,
+        severity: severities[Math.floor(Math.random() * severities.length)],
+        insuranceActive: true,
+        enrollmentDate: randomDate(new Date(2019, 0, 1), new Date()).toISOString().split('T')[0],
+        claims,
+        brsScore,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+    };
+
+    // ================= MAIN SEED FUNCTION =================
+    const seedPatients = async () => {
+      const output = document.getElementById('output');
+      const status = document.getElementById('status');
+      const btn = document.getElementById('seedBtn');
+      
+      btn.disabled = true;
+      output.innerHTML = '🌱 Starting to seed patients...\n';
+      status.style.display = 'none';
+      
+      try {
+        const patientsRef = collection(db, 'patients');
+        let successCount = 0;
+        let totalClaims = 0;
+        
+        for (let i = 0; i < 50; i++) {
+          const patient = generatePatient(i);
+          
+          try {
+            await addDoc(patientsRef, patient);
+            successCount++;
+            totalClaims += patient.claims.length;
+            
+            // Update output
+            const riskEmoji = patient.brsScore > 0.7 ? '🟢' : patient.brsScore > 0.4 ? '🟡' : '🔴';
+            output.innerHTML += `${riskEmoji} Added: ${patient.name.padEnd(20)} | Age: ${patient.age} | BRS: ${patient.brsScore} | Claims: ${patient.claims.length}\n`;
+            
+          } catch (error) {
+            output.innerHTML += `❌ Failed: ${error.message}\n`;
+          }
+          
+          // Scroll to bottom
+          output.scrollTop = output.scrollHeight;
+          
+          // Small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        // Summary
+        const avgBRS = (successCount > 0) ? 'Calculated' : 'N/A';
+        output.innerHTML += `\n✅ ${'='.repeat(50)}\n`;
+        output.innerHTML += `✅ SUCCESS! Added ${successCount}/50 patients\n`;
+        output.innerHTML += `✅ Total claims created: ${totalClaims}\n`;
+        output.innerHTML += `✅ Average claims per patient: ${(totalClaims/successCount).toFixed(1)}\n`;
+        output.innerHTML += `✅ ${'='.repeat(50)}\n`;
+        
+        status.style.display = 'block';
+        status.className = 'status success';
+        status.innerHTML = `<strong>✅ Success!</strong> Added ${successCount} patients to Firestore. Refresh your Medical Vault to see them.`;
+        
+      } catch (error) {
+        status.style.display = 'block';
+        status.className = 'status error';
+        status.innerHTML = `<strong>❌ Error!</strong> ${error.message}`;
+      } finally {
+        btn.disabled = false;
+      }
+    };
+
+    // Add click handler
+    document.getElementById('seedBtn').addEventListener('click', seedPatients);
+  </script>
+</body>
+</html>

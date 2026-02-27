@@ -1,122 +1,157 @@
 # layers/pai_calculator.py
 import math
+import numpy as np
 
 class PAICalculator:
     """
-    Calculates Policy Ambiguity Index from retrieved clauses
+    Calculates Policy Ambiguity Index from constraint types and contradictions
+    Higher PAI = more ambiguity/conflict in policy interpretation
     """
     
     def calculate_from_retrieved_clauses(self, retrieved_clauses, disease_name, clause_embeddings=None, return_report=False):
         """
+        This method is called from app.py - it should receive alignments
+        """
+        # Check if we're getting alignments
+        if retrieved_clauses and isinstance(retrieved_clauses[0], dict) and 'alignment_score' in retrieved_clauses[0]:
+            return self.calculate_from_alignments(retrieved_clauses, disease_name, return_report)
+        else:
+            msg = f"\n📊 Calculating PAI for {disease_name} - No alignments found"
+            print(msg)
+            if return_report:
+                return 0.0, msg
+            return 0.0
+    
+    def calculate_from_alignments(self, alignments, disease_name, return_report=False):
+        """
+        Calculate PAI from constraint alignments
+        
         Args:
-            retrieved_clauses: List of clause dicts from /api/analysis/extract
+            alignments: List of ConstraintAlignment objects from patient_aligner
             disease_name: Name of the disease being checked
-            clause_embeddings: Optional embeddings for semantic similarity
             return_report: If True, returns (score, report_text) tuple
-            
-        Returns:
-            pai_score: Single float between 0-1
-            OR (score, report_text) if return_report=True
         """
         
         report_lines = []
         
-        if not retrieved_clauses:
-            msg = f"\n📊 Calculating PAI for {disease_name} - No clauses found"
+        if not alignments:
+            msg = f"\n📊 Calculating PAI for {disease_name} - No alignments found"
             print(msg)
             report_lines.append(msg)
             return (0.0, "\n".join(report_lines)) if return_report else 0.0
 
-        header = f"\n📊 Calculating PAI for {disease_name} from {len(retrieved_clauses)} clauses"
+        header = f"\n📊 Calculating PAI for {disease_name} from {len(alignments)} constraints"
         separator = "=" * 80
         print(header)
         print(separator)
         report_lines.append(header)
         report_lines.append(separator)
 
-        # Filter weak matches
-        strong_clauses = [c for c in retrieved_clauses if c.get('similarity_score', 0) >= 0.3]
-        weak_count = len(retrieved_clauses) - len(strong_clauses)
+        # Count constraints by type
+        type_counts = {
+            'waiting_period': 0,
+            'age_limit': 0,
+            'pre_existing': 0,
+            'disease_coverage': 0
+        }
         
-        # Count categories
-        coverage_count = len([c for c in strong_clauses if c.get('category') == 'Coverage'])
-        exclusion_count = len([c for c in strong_clauses if c.get('category') == 'Exclusion'])
-        waiting_count = len([c for c in strong_clauses if c.get('category') == 'Waiting Period'])
-        general_count = len([c for c in strong_clauses if c.get('category') == 'General'])
+        contradictions_by_type = {
+            'waiting_period': 0,
+            'age_limit': 0,
+            'pre_existing': 0,
+            'disease_coverage': 0
+        }
         
-        # Calculate entropy (diversity of categories)
-        total = len(strong_clauses)
+        for alignment in alignments:
+            # Handle both dict and object
+            if hasattr(alignment, 'to_dict'):
+                alignment = alignment.to_dict()
+                
+            constraint = alignment.get('constraint', {})
+            ctype = constraint.get('type', 'unknown')
+            contradiction = alignment.get('contradiction', False)
+            
+            if ctype in type_counts:
+                type_counts[ctype] += 1
+                if contradiction:
+                    contradictions_by_type[ctype] += 1
+        
+        # Calculate entropy (diversity of constraint types)
+        total = len(alignments)
         if total > 0:
             proportions = []
-            if coverage_count > 0:
-                proportions.append(coverage_count / total)
-            if exclusion_count > 0:
-                proportions.append(exclusion_count / total)
-            if waiting_count > 0:
-                proportions.append(waiting_count / total)
-            if general_count > 0:
-                proportions.append(general_count / total)
+            for ctype, count in type_counts.items():
+                if count > 0:
+                    proportions.append(count / total)
             
-            entropy = -sum(p * math.log(p) for p in proportions) / math.log(4) if proportions else 0
+            if proportions:
+                entropy = -sum(p * math.log(p) for p in proportions) / math.log(4) if len(proportions) > 1 else 0
+            else:
+                entropy = 0
         else:
             entropy = 0
         
-        # Calculate conflict score (ratio of opposing clauses)
-        if coverage_count + exclusion_count > 0:
-            conflict = exclusion_count / (coverage_count + exclusion_count)
+        # Calculate conflict score (ratio of contradictions)
+        if total > 0:
+            total_contradictions = sum(contradictions_by_type.values())
+            conflict = total_contradictions / total
         else:
             conflict = 0
         
-        # Calculate relative variance
-        categories = [coverage_count, exclusion_count, waiting_count, general_count]
-        mean = sum(categories) / 4 if sum(categories) > 0 else 0
-        variance = sum((x - mean) ** 2 for x in categories) / 4 if mean > 0 else 0
+        # Calculate type variance
+        counts_list = list(type_counts.values())
+        mean = sum(counts_list) / 4 if sum(counts_list) > 0 else 0
+        variance = sum((x - mean) ** 2 for x in counts_list) / 4 if mean > 0 else 0
         rel_variance = variance / (mean ** 2 + 0.01) if mean > 0 else 0
         
-        # Weights
+        # Calculate contradiction diversity
+        if total_contradictions > 0:
+            contradiction_props = []
+            for ctype, count in contradictions_by_type.items():
+                if count > 0:
+                    contradiction_props.append(count / total_contradictions)
+            contradiction_entropy = -sum(p * math.log(p) for p in contradiction_props) / math.log(4) if contradiction_props else 0
+        else:
+            contradiction_entropy = 0
+        
+        # Weights for different factors
         w_entropy = 0.2
         w_variance = 0.15
-        w_conflict = 0.5
-        w_similarity = 0.15
-        
-        # Semantic similarity (simplified - would need embeddings)
-        semantic_similarity = 0.5  # Placeholder
+        w_conflict = 0.4
+        w_contradiction_diversity = 0.25
         
         # Raw PAI
         raw_pai = (w_entropy * entropy + 
                    w_variance * rel_variance + 
                    w_conflict * conflict + 
-                   w_similarity * semantic_similarity)
+                   w_contradiction_diversity * contradiction_entropy)
         
-        # Confidence adjustment
-        confidence = min(1.0, len(strong_clauses) / 6.0)
+        # Confidence adjustment (more constraints = higher confidence)
+        confidence = min(1.0, total / 10.0)  # 10+ constraints gives full confidence
         
         # Final PAI
-        pai_score = raw_pai * confidence
+        pai_score = raw_pai * (0.5 + 0.5 * confidence)  # Scale with confidence
 
-        line1 = f"📈 FINAL ENHANCED PAI: Conflict Dominant + Confidence Adjusted"
-        line2 = separator
-        line3 = f"\n   📊 Confidence adjustment: {confidence:.2f} ({len(strong_clauses)}/6 clauses)"
-        line4 = separator
-        
-        print(line1)
-        print(line2)
-        print(line3)
-        print(line4)
-        
-        report_lines.append(line1)
-        report_lines.append(line2)
-        report_lines.append(line3)
-        report_lines.append(line4)
-        
+        # Print breakdown
         breakdown = f"""
 📊 PAI DETAILED BREAKDOWN:
-   📊 Entropy (20% weight): {entropy:.3f}
-   📉 Relative variance (15% weight): {rel_variance:.3f}
-   ⚔️  Conflict score (50% weight): {conflict:.3f}
-   🔬 Semantic similarity (15% weight): {semantic_similarity:.3f}
-
-   📚 Categories: Coverage={coverage_count}, Exclusion={exclusion_count}, Waiting={waiting_count}, General={general_count}
+   Constraint Distribution:
+     • Waiting Period: {type_counts['waiting_period']}
+     • Age Limit: {type_counts['age_limit']}
+     • Pre-existing: {type_counts['pre_existing']}
+     • Disease Coverage: {type_counts['disease_coverage']}
+   
+   Contradictions by Type:
+     • Waiting Period: {contradictions_by_type['waiting_period']}
+     • Age Limit: {contradictions_by_type['age_limit']}
+     • Pre-existing: {contradictions_by_type['pre_existing']}
+     • Disease Coverage: {contradictions_by_type['disease_coverage']}
+   
+   Metrics:
+     • Entropy (type diversity): {entropy:.3f}
+     • Relative variance: {rel_variance:.3f}
+     • Conflict score: {conflict:.3f}
+     • Contradiction diversity: {contradiction_entropy:.3f}
 
 📈 RAW PAI (before confidence): {raw_pai:.3f}
    Confidence multiplier: {confidence:.2f}

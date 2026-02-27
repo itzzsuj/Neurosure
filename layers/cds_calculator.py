@@ -2,31 +2,45 @@
 
 class CDSCalculator:
     """
-    Calculates Coverage Density Score from retrieved clauses
-    CDS = (Weighted support from Coverage clauses) / (Total relevance of all relevant clauses)
+    Calculates Coverage Density Score from constraints and alignments
+    CDS = (Weighted support from satisfied constraints) / (Total constraints)
     """
     
     def calculate_from_retrieved_clauses(self, retrieved_clauses, disease_name, return_report=False):
         """
+        This method is called from app.py - it should receive alignments
+        """
+        # Check if we're getting alignments (they might be in retrieved_clauses)
+        if retrieved_clauses and isinstance(retrieved_clauses[0], dict) and 'alignment_score' in retrieved_clauses[0]:
+            # This is actually alignments data
+            return self.calculate_from_alignments(retrieved_clauses, disease_name, return_report)
+        else:
+            # No alignments found
+            msg = f"\n📊 Calculating CDS for {disease_name} - No alignments found"
+            print(msg)
+            if return_report:
+                return 0.0, msg
+            return 0.0
+    
+    def calculate_from_alignments(self, alignments, disease_name, return_report=False):
+        """
+        Calculate CDS from constraint alignments
+        
         Args:
-            retrieved_clauses: List of clause dicts from /api/analysis/extract
+            alignments: List of ConstraintAlignment objects from patient_aligner
             disease_name: Name of the disease being checked
             return_report: If True, returns (score, report_text) tuple
-            
-        Returns:
-            cds_score: Single float between 0-1
-            OR (score, report_text) if return_report=True
         """
         
         report_lines = []
         
-        if not retrieved_clauses:
-            msg = f"\n📊 Calculating CDS for {disease_name} - No clauses found"
-            print(msg)  # Keep for terminal
+        if not alignments:
+            msg = f"\n📊 Calculating CDS for {disease_name} - No alignments found"
+            print(msg)
             report_lines.append(msg)
             return (0.0, "\n".join(report_lines)) if return_report else 0.0
 
-        header = f"\n📊 Calculating CDS for {disease_name} from {len(retrieved_clauses)} clauses"
+        header = f"\n📊 Calculating CDS for {disease_name} from {len(alignments)} constraints"
         separator = "-" * 50
         print(header)
         print(separator)
@@ -34,53 +48,52 @@ class CDSCalculator:
         report_lines.append(separator)
 
         total_support_score = 0.0
-        total_relevance = 0.0
-        weak_matches_skipped = 0
+        total_constraints = len(alignments)
+        satisfied_constraints = 0
+        partial_constraints = 0
 
-        for i, clause in enumerate(retrieved_clauses, 1):
-            relevance = clause.get('similarity_score', 0)
-            category = clause.get('category', 'General')
-            disease_mentioned = clause.get('disease_mentioned', False)
+        for i, alignment in enumerate(alignments, 1):
+            # Handle both dict and object
+            if hasattr(alignment, 'to_dict'):
+                alignment = alignment.to_dict()
             
-            # Ignore weak matches (relevance < 0.3)
-            if relevance < 0.3:
-                weak_matches_skipped += 1
-                line = f"   {i}. ⚠️ Skipped (weak): {category} - rel={relevance:.2f}"
-                print(line)
-                report_lines.append(line)
-                continue
-
-            # Add to denominator - ALL relevant clauses count in total_relevance
-            total_relevance += relevance
-
-            # Only Coverage clauses contribute to support score
-            if category == 'Coverage':
-                support = relevance
-                
-                # Boost if disease is directly mentioned
-                if disease_mentioned:
-                    support *= 1.5
-                    line = f"   {i}. ✓✓ COVERAGE (with mention): rel={relevance:.2f} → support={support:.2f}"
-                else:
-                    line = f"   {i}. ✓ COVERAGE: rel={relevance:.2f} → support={support:.2f}"
-                
-                print(line)
-                report_lines.append(line)
-                total_support_score += support
-
-            elif category == 'Exclusion':
-                line = f"   {i}. ✗ EXCLUSION: rel={relevance:.2f} (adds to denominator only)"
-                print(line)
-                report_lines.append(line)
-
-            else:  # General, Waiting Period, etc.
-                line = f"   {i}. • GENERAL: rel={relevance:.2f} (adds to denominator only)"
-                print(line)
-                report_lines.append(line)
+            constraint = alignment.get('constraint', {})
+            alignment_score = alignment.get('alignment_score', 0)
+            contradiction = alignment.get('contradiction', False)
+            risk_level = alignment.get('risk_level', 0)
+            
+            constraint_type = constraint.get('type', 'unknown')
+            condition = constraint.get('condition', 'general')
+            
+            # Support is based on alignment score
+            support = alignment_score
+            
+            # Higher support for disease-specific constraints
+            if condition == disease_name.lower():
+                support *= 1.2
+                support = min(support, 1.0)
+            
+            if alignment_score >= 0.9:
+                satisfied_constraints += 1
+                status = "✓✓ SATISFIED"
+            elif alignment_score >= 0.5:
+                partial_constraints += 1
+                status = "✓ PARTIAL"
+            else:
+                status = "✗ UNSATISFIED"
+            
+            total_support_score += support
+            
+            line = f"   {i}. {status} ({constraint_type}): alignment={alignment_score:.2f} → support={support:.2f}"
+            if contradiction:
+                line += f" ⚠️ CONTRADICTION (risk={risk_level:.2f})"
+            
+            print(line)
+            report_lines.append(line)
 
         # Calculate final CDS score
-        if total_relevance > 0:
-            cds_score = total_support_score / total_relevance
+        if total_constraints > 0:
+            cds_score = total_support_score / total_constraints
         else:
             cds_score = 0.0
 
@@ -91,12 +104,12 @@ class CDSCalculator:
         report_lines.append(separator)
         
         summary = f"""
-📊 SUMMARY:
-   Total clauses received: {len(retrieved_clauses)}
-   Weak matches skipped (relevance < 0.3): {weak_matches_skipped}
-   Clauses used in calculation: {len(retrieved_clauses) - weak_matches_skipped}
+📊 CDS SUMMARY:
+   Total constraints evaluated: {total_constraints}
+   Fully satisfied: {satisfied_constraints}
+   Partially satisfied: {partial_constraints}
+   Unsatisfied: {total_constraints - satisfied_constraints - partial_constraints}
    Total support score: {total_support_score:.3f}
-   Total relevance (denominator): {total_relevance:.3f}
 ✅ FINAL CDS Score for {disease_name}: {cds_score:.3f}"""
         
         print(summary)
