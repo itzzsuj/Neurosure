@@ -172,15 +172,17 @@
     import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
     
     // 🔴 IMPORTANT: Replace with your actual Firebase config from src/firebase.js
-    // Your web app's Firebase configuration
+    // Replace these with your actual Firebase config
+    // Get them from: https://console.firebase.google.com/
     const firebaseConfig = {
-        apiKey: "AIzaSyCrLOHagtzcyYldc5_acb1jMQ5V9QDI7M4",
-        authDomain: "neurosure-auth.firebaseapp.com",
-        projectId: "neurosure-auth",
-        storageBucket: "neurosure-auth.firebasestorage.app",
-        messagingSenderId: "429943292168",
-        appId: "1:429943292168:web:7c42882254b34e2959acbd"
+      apiKey: "YOUR_API_KEY_HERE",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
+
     
     // Check if config is still default
     const configWarning = document.getElementById('configWarning');
